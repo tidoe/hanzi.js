@@ -105,7 +105,7 @@ For example, 吾 can be written as ⿱五口 and 語 can be written as ⿰言吾
 ```
 8. Font- and background-color
 ```html
-<span style='color:red;background-color:gray;'>你<hanzi>⿰女子</hanzi>世界！</span>
+<span style="color:red;background-color:gray;">你<hanzi>⿰女子</hanzi>世界！</span>
 ```
 9. Coloured components
 ```html
