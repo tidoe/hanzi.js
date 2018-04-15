@@ -1,0 +1,801 @@
+<!-------------------------------------------------------------------------------
+
+ script:      Hanzi Test
+ version:     1.0
+ author:      Tillmann Doenicke
+ date:        2018-04-15
+
+ This script loads Hanzi 01, Hanzi 02 and possibly extensions before </body>.
+
+-------------------------------------------------------------------------------->
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Hanzi Test Page</title>
+		<style>
+			:root {
+				--schriftgroesse: 60pt;
+				--tablebordertopleft: #202020;
+				--tableborderbottomright: #808080;
+			}
+			body {
+				font-size: var(--schriftgroesse);
+			}
+			p {
+				font-size: 12pt;
+				text-align: left;
+			}
+			table {
+				display: inline-table;
+				table-layout: fixed;
+				border-top: 1px solid var(--tableborderbottomright);
+				border-left: 1px solid var(--tableborderbottomright);
+				border-right: 1px solid var(--tablebordertopleft);
+				border-bottom: 1px solid var(--tablebordertopleft);
+			}
+			.header {
+				font-size: 20%;
+				font-weight: bold;
+				white-space: nowrap;
+			}
+			tr.header {
+				height: 35px;
+			}
+			th {
+				border-left: 1px solid var(--tablebordertopleft);
+				border-top: 1px solid var(--tablebordertopleft);
+				border-right: 1px solid var(--tableborderbottomright);
+				border-bottom: 1px solid var(--tableborderbottomright);
+			}
+			td {
+				text-align: center;
+				width: var(--schriftgroesse);
+				border-left: 1px solid var(--tablebordertopleft);
+				border-top: 1px solid var(--tablebordertopleft);
+				border-right: 1px solid var(--tableborderbottomright);
+				border-bottom: 1px solid var(--tableborderbottomright);
+			}
+			td.comby {
+				border-style: hidden;
+			}
+			span.comby {
+				display: inline-block;
+				height: 100%;
+				margin: -1px;
+				border-left: 1px solid var(--tablebordertopleft);
+				border-top: 1px solid var(--tablebordertopleft);
+				border-right: 1px solid var(--tableborderbottomright);
+				border-bottom: 1px solid var(--tableborderbottomright);
+			}
+		</style>
+		<script type="text/javascript">
+			var url = document.URL;
+			url = url.includes("?") ? url.split("?")[1] : "";
+			url = url.split("&");
+			var params = {};
+			for(var i = 0; i < url.length; ++i){
+				url[i] = decodeURI(url[i]).split("=");
+				params[url[i][0]] = url[i][1];
+			}
+		</script>
+	</head>
+	<body>
+		<div style="font-family: Arial;">
+			<p>This page is for testing. The original character is in <span style="color:orange;">orange</span> under its generated equivalent. The better they match, the better your parameters are.</p>
+			<p>Note that in many times there are several possibilities to describe a character and not all of them look identical, e.g. ⿰糹頡 (<hanzi>⿰糹頡</hanzi>) vs. ⿰糹⿰吉頁 (<hanzi>⿰糹⿰吉頁</hanzi>) vs. ⿲糹吉頁 (<hanzi>⿲糹吉頁</hanzi>) for 纈.</p>
+			<p>You can hover over a character to see its input description.</p>
+			<p><br /><script type="text/javascript">document.write("font" in params ? "You are testing <b> " + params["font"].replace(/\"/g, "") + "</b>." : "Test a font by setting the GET parameter <tt>font</tt>.");</script></p>
+			<p><br />Jump to: <a href="#left-and-right">left and right</a>, <a href="#top-and-bottom">top and bottom</a>, <a href="#surrounding-and-overlapping">surrounding and overlapping</a>, <a href="#triplets">triplets</a>, <a href="#characters-with-more-than-one-descriptor">characters with more than one descriptor</a>, <a href="#non-unicode-characters">non-Unicode characters</a>, <a href="#text-examples">text examples</a>, <a href="#coloured-components">coloured components</a>, <a href="#different-fonts">different fonts</a></p>
+		</div>
+		<font size="6" id="left-and-right">LEFT AND RIGHT</font><br />
+		<table border="1">
+			<tr class="header">
+				<th>Normal</th>
+				<th>2-6 ⼃s</th>
+				<th>7-11 ⼃s</th>
+				<th>12-16 ⼃s</th>
+				<th>17-21 ⼃s</th>
+				<th>22-26 ⼃s</th>
+				<th>27-31 ⼃s</th>
+				<th>32-36 ⼃s</th>
+			</tr>
+			<tr>
+				<td>⿰</td>
+				<td><hanzi comp="厸">⿰厶厶</hanzi></td>
+				<td><hanzi comp="昭">⿰日召</hanzi></td>
+				<td><hanzi comp="魡">⿰魚勺</hanzi></td>
+				<td><hanzi comp="饃">⿰食莫</hanzi></td>
+				<td><hanzi comp="䵐">⿰黄單</hanzi></td>
+				<td><hanzi comp="鸛">⿰雚鳥</hanzi></td>
+				<td><hanzi comp="䰱">⿰靈鬼</hanzi></td>
+			</tr>
+			<tr>
+				<td>⿲</td>
+				<td><hanzi comp="以">⿲𠄌丶人</hanzi></td>
+				<td><hanzi comp="掰">⿲手分手</hanzi></td>
+				<td><hanzi comp="嘂">⿲吕丩吕</hanzi></td>
+				<td><hanzi comp="䜌">⿲糸言糸</hanzi></td>
+				<td><hanzi comp="雦">⿲隹隹隹</hanzi></td>
+				<td><hanzi comp="𩧢">⿲馬馬馬</hanzi></td>
+				<td><hanzi comp=""></hanzi></td>
+			</tr>
+		</table>
+		<table border="1">
+			<tr class="header">
+				<th>Left 1/3</th>
+				<th>亻 (9)</th>
+				<th>冫 (15)</th>
+				<th>龺 (24+6)</th>
+				<th>彳 (60)</th>
+				<th>忄 (61)</th>
+				<th>扌 (64)</th>
+				<th>氵 (85)</th>
+				<th>牜 (93)</th>
+				<th>犭 (94)</th>
+			</tr>
+			<tr>
+				<td>⿰</td>
+				<td><hanzi comp="俢">⿰亻㣊</hanzi></td>
+				<td><hanzi comp="㓇">⿰冫夭</hanzi></td>
+				<td><hanzi comp="韓">⿰龺韋</hanzi></td>
+				<td><hanzi comp="㣴">⿰彳黄</hanzi></td>
+				<td><hanzi comp="㥺">⿰忄盍</hanzi></td>
+				<td><hanzi comp="扚">⿰扌勺</hanzi></td>
+				<td><hanzi comp="汋">⿰氵勺</hanzi></td>
+				<td><hanzi comp="㹏">⿰牜堇</hanzi></td>
+				<td><hanzi comp="獌">⿰犭曼</hanzi></td>
+			</tr>
+			<tr>
+				<td>⿲</td>
+				<td><hanzi comp="㐺">⿲亻亻人</hanzi></td>
+				<td><hanzi comp="𠘢">⿲冫鹵舟</hanzi></td>
+				<td><hanzi comp=""></hanzi></td>
+				<td><hanzi comp="衙">⿲彳吾亍</hanzi></td>
+				<td><hanzi comp="惭">⿲忄车斤</hanzi></td>
+				<td><hanzi comp="𢲚">⿲扌司台</hanzi></td>
+				<td><hanzi comp="㴻">⿲氵豆寸</hanzi></td>
+				<td><hanzi comp="𤛀">⿲牜貝寸</hanzi></td>
+				<td><hanzi comp="㺇">⿲犭𦣝犬</hanzi></td>
+			</tr>
+		</table>
+		<table border="1">
+			<tr class="header">
+				<th>Left 2/3</th>
+				<th>⺩ (96)</th>
+				<th>⺪ (103)</th>
+				<th>礻 (113)</th>
+				<th>纟 (120)</th>
+				<th>糹 (120)</th>
+				<th>⺼ (130)</th>
+				<th>衤 (145)</th>
+				<th>讠 (149)</th>
+				<th>訁 (149)</th>
+			</tr>
+			<tr>
+				<td>⿰</td>
+				<td><hanzi comp="玚">⿰⺩𠃓</hanzi></td>
+				<td><hanzi comp="疎">⿰⺪束</hanzi></td>
+				<td><hanzi comp="祻">⿰礻固</hanzi></td>
+				<td><hanzi comp="绗">⿰纟行</hanzi></td>
+				<td><hanzi comp="絎">⿰糹行</hanzi></td>
+				<td><hanzi comp="䑌">⿰⺼闌</hanzi></td>
+				<td><hanzi comp="裷">⿰衤卷</hanzi></td>
+				<td><hanzi comp="谒">⿰讠曷</hanzi></td>
+				<td><hanzi comp="謁">⿰訁曷</hanzi></td>
+			</tr>
+			<tr>
+				<td>⿲</td>
+				<td><hanzi comp="璐">⿲⺩⻊各</hanzi></td>
+				<td><hanzi comp=""></hanzi></td>
+				<td><hanzi comp=""></hanzi></td>
+				<td><hanzi comp="缬">⿲纟吉页</hanzi></td>
+				<td><hanzi comp="纈">⿲糹吉頁</hanzi></td>
+				<td><hanzi comp="膨">⿲⺼壴彡</hanzi></td>
+				<td><hanzi comp="𧝯">⿲衤耳衣</hanzi></td>
+				<td><hanzi comp=""></hanzi></td>
+				<td><hanzi comp=""></hanzi></td>
+			</tr>
+		</table>
+		<table border="1">
+			<tr class="header">
+				<th>Left 3/3</th>
+				<th>𧾷 (157)</th>
+				<th>⻊ (157)</th>
+				<th>钅 (167)</th>
+				<th>釒 (167)</th>
+				<th>阝 (170)</th>
+				<th>饣 (184)</th>
+				<th>飠 (184)</th>
+				<th>⻞ (184)</th>
+				<th>𩙿 (184)</th>
+			</tr>
+			<tr>
+				<td>⿰</td>
+				<td><hanzi comp="跴">⿰𧾷西</hanzi></td>
+				<td><hanzi comp="跴">⿰⻊西</hanzi></td>
+				<td><hanzi comp="锯">⿰钅居</hanzi></td>
+				<td><hanzi comp="鋸">⿰釒居</hanzi></td>
+				<td><hanzi comp="䧚">⿰阝高</hanzi></td>
+				<td><hanzi comp="馍">⿰饣莫</hanzi></td>
+				<td><hanzi comp="饃">⿰飠莫</hanzi></td>
+				<td><hanzi comp="饃">⿰⻞莫</hanzi></td>
+				<td><hanzi comp="饃">⿰𩙿莫</hanzi></td>
+			</tr>
+			<tr>
+				<td>⿲</td>
+				<td><hanzi comp="𨅫">⿲𧾷麦去</hanzi></td>
+				<td><hanzi comp="𨅫">⿲⻊麦去</hanzi></td>
+				<td><hanzi comp="𫛾">⿲钅且鸟</hanzi></td>
+				<td><hanzi comp="𪆷">⿲釒且鸟</hanzi></td>
+				<td><hanzi comp="𨽇">⿲阝魚亍</hanzi></td>
+				<td><hanzi comp=""></hanzi></td>
+				<td><hanzi comp="𩟼">⿲飠妥養</hanzi></td>
+				<td><hanzi comp="𩟼">⿲⻞妥養</hanzi></td>
+				<td><hanzi comp="𩟼">⿲𩙿妥養</hanzi></td>
+			</tr>
+		</table>
+		<table border="1">
+			<tr class="header">
+				<th>Right</th>
+				<th>刂 (18)</th>
+				<th>卜 (25)</th>
+				<th>卩 (26)</th>
+				<th>⺙ (66)</th>
+				<th>⻏ (163)</th>
+			</tr>
+			<tr>
+				<td>⿰</td>
+				<td><hanzi comp="㓦">⿰百刂</hanzi></td>
+				<td><hanzi comp="𠧩">⿰每卜</hanzi></td>
+				<td><hanzi comp="却">⿰去卩</hanzi></td>
+				<td><hanzi comp="敘">⿰余⺙</hanzi></td>
+				<td><hanzi comp="部">⿰咅⻏</hanzi></td>
+			</tr>
+			<tr>
+				<td>⿲</td>
+				<td><hanzi comp="𠜳">⿲月月刂</hanzi></td>
+				<td><hanzi comp=""></hanzi></td>
+				<td><hanzi comp="栁">⿲木夕卩</hanzi></td>
+				<td><hanzi comp=""></hanzi></td>
+				<td><hanzi comp="郷">⿲乡皀⻏</hanzi></td>
+			</tr>
+		</table>
+		<table border="1">
+			<tr class="header">
+				<th>⿲</th>
+				<th colspan="2">Right</th>
+			</tr>
+			<tr>
+				<td class="header" rowspan="2">Left</td>
+				<td><hanzi comp="测">⿲氵贝刂</hanzi></td>
+				<td><hanzi comp="僌">⿲亻車⺙</hanzi></td>
+			</tr>
+			<tr>
+				<td><hanzi comp="腳">⿲⺼谷卩</hanzi></td>
+				<td><hanzi comp="徹">⿲彳育⺙</hanzi></td>
+			</tr>
+		</table>
+		<br />
+		<font size="6" id="top-and-bottom">TOP AND BOTTOM</font><br />
+		<table border="1">
+			<tr class="header">
+				<th>Normal</th>
+				<th>2-6 ⼃s</th>
+				<th>7-11 ⼃s</th>
+				<th>12-16 ⼃s</th>
+				<th>17-21 ⼃s</th>
+				<th>22-26 ⼃s</th>
+				<th>27-31 ⼃s</th>
+				<th>32-36 ⼃s</th>
+			</tr>
+			<tr>
+				<td>⿱</td>
+				<td><hanzi comp="殳">⿱𠘧又</hanzi></td>
+				<td><hanzi comp="架">⿱加木</hanzi></td>
+				<td><hanzi comp="翟">⿱羽隹</hanzi></td>
+				<td><hanzi comp="霧">⿱雨務</hanzi></td>
+				<td><hanzi comp="鑫">⿱金鍂</hanzi></td>
+				<td><hanzi comp="䰖">⿱髟贊</hanzi></td>
+				<td><hanzi comp="䯂">⿱驫木</hanzi></td>
+			</tr>
+			<tr>
+				<td>⿳</td>
+				<td><hanzi comp="三">⿳一一一</hanzi></td>
+				<td><hanzi comp="窓">⿳穴厶心</hanzi></td>
+				<td><hanzi comp="棄">⿳𠫓丗木</hanzi></td>
+				<td><hanzi comp="嚣">⿳吅页吅</hanzi></td>
+				<td><hanzi comp="衋">⿳聿皕血</hanzi></td>
+				<td><hanzi comp=""></hanzi></td>
+				<td><hanzi comp=""></hanzi></td>
+			</tr>
+		</table>
+		<table border="1">
+			<tr class="header">
+				<th>Top 1/5</th>
+				<th colspan="2">丆 (1+1)</th>
+				<th colspan="2">丷 (3+1)</th>
+				<th colspan="2">𠂉 (4+1)</th>
+				<th colspan="2">乛 (5)</th>
+				<th colspan="2">亠 (8)</th>
+			</tr>
+			<tr>
+				<td>⿱</td>
+				<td><hanzi comp="页">⿱丆贝</hanzi></td>
+				<td><hanzi comp="面">⿱丆囬</hanzi></td>
+				<td><hanzi comp="关">⿱丷天</hanzi></td>
+				<td><hanzi comp="㒸">⿱丷豕</hanzi></td>
+				<td><hanzi comp="乞">⿱𠂉乙</hanzi></td>
+				<td><hanzi comp="㐌">⿱𠂉也</hanzi></td>
+				<td><hanzi comp="𠀄">⿱乛丄</hanzi></td>
+				<td><hanzi comp="买">⿱乛头</hanzi></td>
+				<td><hanzi comp="交">⿱亠父</hanzi></td>
+				<td><hanzi comp="亹">⿱亠舋</hanzi></td>
+			</tr>
+			<tr>
+				<td>⿳</td>
+				<td colspan="2" class="comby"><span class="comby"><hanzi comp="𡎄">⿳丆冖𦉷</hanzi></span></td>
+				<td colspan="2" class="comby"><span class="comby"><hanzi comp="总">⿳丷口心</hanzi></span></td>
+				<td colspan="2" class="comby"><span class="comby"><hanzi comp="复">⿳𠂉日夂</hanzi></span></td>
+				<td colspan="2" class="comby"><span class="comby"><hanzi comp=""></hanzi></span></td>
+				<td colspan="2" class="comby"><span class="comby"><hanzi comp="享">⿳亠口子</hanzi></span></td>
+			</tr>
+		</table>
+		<table border="1">
+			<tr class="header">
+				<th>Top 2/5</th>
+				<th colspan="2">冖 (14)</th>
+				<th colspan="2">⺈ (18)</th>
+				<th colspan="2">龶 (32+1)</th>
+				<th colspan="2">宀 (40)</th>
+				<th colspan="2">⺍ (42)</th>
+			</tr>
+			<tr>
+				<td>⿱</td>
+				<td><hanzi comp="冚">⿱冖山</hanzi></td>
+				<td><hanzi comp="冩">⿱冖舄</hanzi></td>
+				<td><hanzi comp="刍">⿱⺈彐</hanzi></td>
+				<td><hanzi comp="角">⿱⺈用</hanzi></td>
+				<td><hanzi comp="责">⿱龶贝</hanzi></td>
+				<td><hanzi comp="毒">⿱龶母</hanzi></td>
+				<td><hanzi comp="安">⿱宀女</hanzi></td>
+				<td><hanzi comp="寑">⿱宀侵</hanzi></td>
+				<td><hanzi comp="鼡">⿱⺍𠂡</hanzi></td>
+				<td><hanzi comp="巣">⿱⺍果</hanzi></td>
+			</tr>
+			<tr>
+				<td>⿳</td>
+				<td colspan="2" class="comby"><span class="comby"><hanzi comp="冥">⿳冖日六</hanzi></span></td>
+				<td colspan="2" class="comby"><span class="comby"><hanzi comp="急">⿳⺈彐心</hanzi></span></td>
+				<td colspan="2" class="comby"><span class="comby"><hanzi comp="𦑢">⿳龶毌羽</hanzi></span></td>
+				<td colspan="2" class="comby"><span class="comby"><hanzi comp="寳">⿳宀珎貝</hanzi></span></td>
+				<td colspan="2" class="comby"><span class="comby"><hanzi comp="単">⿳⺍田十</hanzi></span></td>
+			</tr>
+		</table>
+		<table border="1">
+			<tr class="header">
+				<th>Top 3/5</th>
+				<th colspan="2">⺌ (42)</th>
+				<th colspan="2">龸 (42+2)</th>
+				<th colspan="2">𤇾 (86+6)</th>
+				<th colspan="2">爫 (87)</th>
+				<th colspan="2">⺧ (93)</th>
+			</tr>
+			<tr>
+				<td>⿱</td>
+				<td><hanzi comp="光">⿱⺌兀</hanzi></td>
+				<td><hanzi comp="尚">⿱⺌冋</hanzi></td>
+				<td><hanzi comp="学">⿱龸子</hanzi></td>
+				<td><hanzi comp="賞">⿱龸員</hanzi></td>
+				<td><hanzi comp="榮">⿱𤇾木</hanzi></td>
+				<td><hanzi comp="鶯">⿱𤇾鳥</hanzi></td>
+				<td><hanzi comp="㸓">⿱爫日</hanzi></td>
+				<td><hanzi comp="爯">⿱爫冉</hanzi></td>
+				<td><hanzi comp="告">⿱⺧口</hanzi></td>
+				<td><hanzi comp="先">⿱⺧儿</hanzi></td>
+			</tr>
+			<tr>
+				<td>⿳</td>
+				<td colspan="2" class="comby"><span class="comby"><hanzi comp=""></hanzi></span></td>
+				<td colspan="2" class="comby"><span class="comby"><hanzi comp="當">⿳龸口田</hanzi></span></td>
+				<td colspan="2" class="comby"><span class="comby"><hanzi comp="𦟴">⿳𤇾一肉</hanzi></span></td>
+				<td colspan="2" class="comby"><span class="comby"><hanzi comp="爵">⿳爫罒𡬠</hanzi></span></td>
+				<td colspan="2" class="comby"><span class="comby"><hanzi comp=""></hanzi></span></td>
+			</tr>
+		</table>
+		<table border="1">
+			<tr class="header">
+				<th>Top 4/5</th>
+				<th colspan="2">𥫗 (118)</th>
+				<th colspan="2">罒 (122)</th>
+				<th colspan="2">耂 (125)</th>
+				<th colspan="2">𦥯 (134+6)</th>
+				<th colspan="2">艹 (140)</th>
+			</tr>
+			<tr>
+				<td>⿱</td>
+				<td><hanzi comp="笁">⿱𥫗工</hanzi></td>
+				<td><hanzi comp="籲">⿱𥫗龥</hanzi></td>
+				<td><hanzi comp="䍖">⿱罒包</hanzi></td>
+				<td><hanzi comp="羆">⿱罒熊</hanzi></td>
+				<td><hanzi comp="者">⿱耂日</hanzi></td>
+				<td><hanzi comp="耇">⿱耂句</hanzi></td>
+				<td><hanzi comp="學">⿱𦥯子</hanzi></td>
+				<td><hanzi comp="鷽">⿱𦥯鳥</hanzi></td>
+				<td><hanzi comp="苶">⿱艹尒</hanzi></td>
+				<td><hanzi comp="著">⿱艹者</hanzi></td>
+			</tr>
+			<tr>
+				<td>⿳</td>
+				<td colspan="2" class="comby"><span class="comby"><hanzi comp="箆">⿳𥫗𠔿比</hanzi></span></td>
+				<td colspan="2" class="comby"><span class="comby"><hanzi comp="𦌽">⿳罒从誩</hanzi></span></td>
+				<td colspan="2" class="comby"><span class="comby"><hanzi comp=""></hanzi></span></td>
+				<td colspan="2" class="comby"><span class="comby"><hanzi comp=""></hanzi></span></td>
+				<td colspan="2" class="comby"><span class="comby"><hanzi comp="塟">⿳艹死土</hanzi></span></td>
+			</tr>
+		</table>
+		<table border="1">
+			<tr class="header">
+				<th>Top 5/5</th>
+				<th colspan="2">䒑 (140)</th>
+				<th colspan="2">龷 (140+1)</th>
+				<th colspan="2">𫇦 (140+2)</th>
+				<th colspan="2">覀 (146)</th>
+				<th colspan="2">⻗ (173)</th>
+			</tr>
+			<tr>
+				<td>⿱</td>
+				<td><hanzi comp="兹">⿱䒑𢆶</hanzi></td>
+				<td><hanzi comp="前">⿱䒑刖</hanzi></td>
+				<td><hanzi comp="共">⿱龷八</hanzi></td>
+				<td><hanzi comp="昔">⿱龷日</hanzi></td>
+				<td><hanzi comp="荣">⿱𫇦朩</hanzi></td>
+				<td><hanzi comp="𦾉">⿱𫇦鳥</hanzi></td>
+				<td><hanzi comp="要">⿱覀女</hanzi></td>
+				<td><hanzi comp="覊">⿱覀䩻</hanzi></td>
+				<td><hanzi comp="雪">⿱⻗彐</hanzi></td>
+				<td><hanzi comp="靇">⿱⻗龍</hanzi></td>				
+			</tr>
+			<tr>
+				<td>⿳</td>
+				<td colspan="2" class="comby"><span class="comby"><hanzi comp="鯗">⿳䒑夫魚</hanzi></span></td>
+				<td colspan="2" class="comby"><span class="comby"><hanzi comp="黄">⿳龷由八</hanzi></span></td>
+				<td colspan="2" class="comby"><span class="comby"><hanzi comp=""></hanzi></span></td>
+				<td colspan="2" class="comby"><span class="comby"><hanzi comp="𫟛">⿳覀田十</hanzi></span></td>
+				<td colspan="2" class="comby"><span class="comby"><hanzi comp="霊">⿳⻗一亚</hanzi></span></td>
+			</tr>
+		</table>
+		<table border="1">
+			<tr class="header">
+				<th>Bottom</th>
+				<th>⺗ (61)</th>
+				<th>龰 (77)</th>
+				<th>灬 (86)</th>
+			</tr>
+			<tr>
+				<td>⿱</td>
+				<td><hanzi comp="叅">⿱𠫯⺗</hanzi></td>
+				<td><hanzi comp="辵">⿱彡龰</hanzi></td>
+				<td><hanzi comp="烋">⿱休灬</hanzi></td>
+			</tr>
+			<tr>
+				<td>⿳</td>
+				<td><hanzi comp=""></hanzi></td>
+				<td><hanzi comp="𤴛">⿳𤰔厶龰</hanzi></td>
+				<td><hanzi comp="㬎">⿳日𢆶灬</hanzi></td>
+			</tr>
+		</table>
+		<table border="1">
+			<tr class="header">
+				<th>⿳</th>
+				<th colspan="2">Bottom</th>
+			</tr>
+			<tr>
+				<td class="header" rowspan="2">Top</td>
+				<td><hanzi comp="爇">⿳艹埶灬</hanzi></td>
+				<td><hanzi comp=""></hanzi></td>
+			</tr>
+			<tr>
+				<td><hanzi comp="魚">⿳⺈田灬</hanzi></td>
+				<td><hanzi comp=""></hanzi></td>
+			</tr>
+		</table>
+		<br />
+		<font size="6" id="surrounding-and-overlapping">SURROUNDING AND OVERLAPPING</font><br />
+		<table>
+			<tr class="header">
+				<th colspan="2">Surrounding</th>
+				<th colspan="2">⿴</th>
+				<th colspan="2">⿵</th>
+				<th colspan="2">⿶</th>
+				<th colspan="2">⿷</th>
+				<th colspan="2">⿸</th>
+				<th colspan="2">⿹</th>
+				<th colspan="2">⿺</th>
+			</tr>
+			<tr>
+				<td class="header">Normal</td>
+				<td class="header">Normal</td>
+				<td><hanzi comp="圞">⿴囗欒</hanzi></td>
+				<td><hanzi comp="叉">⿴又丶</hanzi></td>
+				<td><hanzi comp="冃">⿵冂二</hanzi></td>
+				<td><hanzi comp="凰">⿵⺇皇</hanzi></td>
+				<td><hanzi comp="凼">⿶凵水</hanzi></td>
+				<td><hanzi comp="义">⿶乂丶</hanzi></td>
+				<td><hanzi comp="㔶">⿷匚贛</hanzi></td>
+				<td><hanzi comp=""></hanzi></td>
+				<td><hanzi comp="厅">⿸厂丁</hanzi></td>
+				<td><hanzi comp="廰">⿸广聴</hanzi></td>
+				<td><hanzi comp="习">⿹𠃌冫</hanzi></td>
+				<td><hanzi comp="匒">⿹勹荅</hanzi></td>
+				<td><hanzi comp="廵">⿺廴巛</hanzi></td>
+				<td><hanzi comp="邐">⿺辶麗</hanzi></td>
+			</tr>
+			<tr>
+				<td class="header">Normal/<br />Special</td>
+				<td class="header">Special</td>
+				<td><hanzi comp="斑">⿴玨文</hanzi></td>
+				<td><hanzi comp="鹵">⿴占𠂭</hanzi></td>
+				<td><hanzi comp="闯">⿵门马</hanzi></td>
+				<td><hanzi comp="𨷷">⿵門蟲</hanzi></td>
+				<td><hanzi comp="幽">⿶山𢆶</hanzi></td>
+				<td><hanzi comp=""></hanzi></td>
+				<td><hanzi comp=""></hanzi></td>
+				<td><hanzi comp="𢒄">⿷工彡</hanzi></td>
+				<td><hanzi comp="癓">⿸疒微</hanzi></td>
+				<td><hanzi comp="房">⿸戶方</hanzi></td>
+				<td><hanzi comp="氣">⿹气米</hanzi></td>
+				<td><hanzi comp="可">⿹丁口</hanzi></td>
+				<td><hanzi comp="匕">⿺乚一</hanzi></td>
+				<td><hanzi comp=""></hanzi></td>
+			</tr>
+		</table>
+		<table>
+			<tr class="header">
+				<th>⿻</th>
+				<th>㇏</th>
+				<th>一 (1)</th>
+				<th>丨 (2)</th>
+				<th>丶 (3)</th>
+				<th>⺀ (3+1)</th>
+				<th>丷 (3+1)</th>
+				<th>二 (7)</th>
+				<th>...</th>
+			</tr>
+			<tr>
+				<td><span title="Should work">☺</span></td>
+				<td><hanzi comp="刄">⿻刀㇏</hanzi></td>
+				<td><hanzi comp="東">⿻束一</hanzi></td>
+				<td><hanzi comp="弔">⿻弓丨</hanzi></td>
+				<td><hanzi comp="匆">⿻勿丶</hanzi></td>
+				<td><hanzi comp="𠂐">⿻乃⺀</hanzi></td>
+				<td><hanzi comp="来">⿻未丷</hanzi></td>
+				<td><hanzi comp=""></hanzi></td>
+				<td class="header" rowspan="2">...</td>
+			</tr>
+			<tr>
+				<td><span title="Can't work" style="font-size:67%;">☹</span></td>
+				<td><hanzi comp=""></hanzi></td>
+				<td><hanzi comp="耒">⿻一未</hanzi></td>
+				<td><hanzi comp=""></hanzi></td>
+				<td><hanzi comp="犬">⿻大丶</hanzi></td>
+				<td><hanzi comp="头">⿻⺀大</hanzi></td>
+				<td><hanzi comp="米">⿻丷木</hanzi></td>
+				<td><hanzi comp="聿">⿻肀二</hanzi></td>
+			</tr>
+		</table>
+		<br />
+		<font size="6" id="triplets">TRIPLETS</font><br />
+		<table border="1">
+			<tr class="header">
+				<th>Normal</th>
+				<th>2-6 ⼃s</th>
+				<th>7-11 ⼃s</th>
+				<th>12-16 ⼃s</th>
+				<th>17-21 ⼃s</th>
+				<th>22-26 ⼃s</th>
+				<th>27-31 ⼃s</th>
+				<th>32+ ⼃s</th>
+			</tr>
+			<tr>
+				<td>⿱</td>
+				<td><hanzi comp="众">⿱人从</hanzi></td>
+				<td><hanzi comp="品">⿱口吅</hanzi></td>
+				<td><hanzi comp="毳">⿱毛㲎</hanzi></td>
+				<td><hanzi comp="轟">⿱車䡛</hanzi></td>
+				<td><hanzi comp="鑫">⿱金鍂</hanzi></td>
+				<td><hanzi comp="馫">⿱香𩡐</hanzi></td>
+				<td><hanzi comp="龘">⿱龍龖</hanzi></td>
+			</tr>
+			<tr>
+				<td>△</td>
+				<td><hanzi comp="众">△人人人</hanzi></td>
+				<td><hanzi comp="品">△口口口</hanzi></td>
+				<td><hanzi comp="毳">△毛毛毛</hanzi></td>
+				<td><hanzi comp="轟">△車車車</hanzi></td>
+				<td><hanzi comp="鑫">△金金金</hanzi></td>
+				<td><hanzi comp="馫">△香香香</hanzi></td>
+				<td><hanzi comp="龘">△龍龍龍</hanzi></td>
+			</tr>
+		</table>
+		<br />
+		<font size="6" id="characters-with-more-than-one-descriptor">CHARACTERS WITH MORE THAN ONE DESCRIPTOR</font><br />
+		<table border="1">
+			<tr class="header">
+				<th colspan="6">2 Descriptors</th>
+				<th colspan="8">3 Descriptors</th>
+				<th colspan="3">4 Descriptors</th>
+			</tr>
+			<tr>
+				<td><hanzi comp="徳">⿰彳⿳十罒心</hanzi></td>
+				<td><hanzi comp="渋">⿰氵⿱止⿱丷八</hanzi></td>
+				<td><hanzi comp="雜">⿰⿳亠从木隹</hanzi></td>
+				<td><hanzi comp="侯">⿰亻⿳乛一矢</hanzi></td>
+				<td><hanzi comp="赢">⿱吂⿲月贝凡</hanzi></td>
+				<td><hanzi comp="衞">⿲彳⿳𫝀口帀亍</hanzi></td>
+				<td><hanzi comp="鹽">⿱⿰臣⿱𠂉鹵皿</hanzi></td>
+				<td><hanzi comp="覧">⿱⿰臣⿱𠂉一見</hanzi></td>
+				<td><hanzi comp="晉">⿱⿳一⿰厶厶一日</hanzi></td>
+				<td><hanzi comp="鬱">⿳⿲木缶木冖⿰鬯彡</hanzi></td>
+				<td><hanzi comp="竊">⿱穴⿰釆⿳⺊𠔿禸</hanzi></td>
+				<td><hanzi comp="鷇">⿰⿳士冖⿱一鳥殳</hanzi></td>
+				<td><hanzi comp="率">⿳亠⿲冫幺⿱㇒丶十</hanzi></td>
+				<td><hanzi comp="凞">⿱⿰冫⿲丿臣巳灬</hanzi></td>
+				<td><hanzi comp="严">⿳一⿰⿰丶丨⿰丨丿厂</hanzi></td>
+				<td><hanzi comp="𠮘">⿰⿳厶山⿵冂不⿳𠮳旧又</hanzi></td>
+				<td><hanzi comp="丽">⿱一⿰⿵冂丶⿵冂丶</hanzi></td>
+			</tr>
+		</table>
+		<br />
+		<font size="6" id="non-unicode-characters">NON-UNICODE CHARACTERS</font><br />
+		<table border="1">
+			<tr>
+				<td class="header">Complex CJKs<br />(<a href="https://commons.wikimedia.org/wiki/File:Chinese_Character_zhao1_cai2_jin4_bao3.svg" title="File:Chinese Character zhao1 cai2 jin4 bao3.svg - Wikimedia Commons" target="_blank">visit link</a>)</td>
+				<td><hanzi comp="">⿺辶⿳宀⿰王缶⿲隹貝招</hanzi></td>
+				<td><hanzi comp="" scales="4:2,6:3">⿺辶⿳穴⿲月⿱⿲幺言幺⿲長馬長刂心</hanzi></td>
+				<td><hanzi comp="" scales="3:3,10:3,-1:0.5">⿳⿲日⿲糸言糸干⿲月⿲長馬長戈心</hanzi></td>
+				<td><hanzi comp="" scales="1:0.5,5:0.5">⿱△雲雲雲△龍龍龍</hanzi></td>
+				<td><hanzi comp="" scales="-4:4">⿳⿲ 雲 ⿲雲龍雲⿲ ⿰龍龍 </hanzi></td>
+			</tr>
+			<tr>
+				<td class="header">Ancient Chinese<br />(<a href="http://www.chinesetimeschool.com/en-us/articles/the-most-difficult-chinese-characters/" title="The Most Difficult Chinese Characters - Character Dictionary Chinese Dictionary Chinese Language - Page 1 - chinesetimeschool.com" target="_blank">visit link</a>)</td>
+				<td><hanzi comp="">⿰⿰⿱⿳田回田⿳田回田⿱⿳田回田⿳田回田⿰⿱⿳田回田⿳田回田⿱⿳田回田⿳田回田</hanzi></td>
+				<td><hanzi comp="">⿰⿱山本⿱山本</hanzi></td>
+				<td><hanzi comp="">⿵門門</hanzi></td>
+				<td><hanzi comp="">⿱人山</hanzi></td>
+				<td><hanzi comp="">⿻一⿵壺⿱ ⿲ 吉 </hanzi></td>
+			</tr>
+			<tr>
+				<td class="header">Japanese Names<br />(<a href="https://japanese.stackexchange.com/questions/5277/which-kanji-has-the-greatest-number-of-strokes" title="names - Which kanji has the greatest number of strokes? - Japanese Language Stack Exchange" target="_blank">visit link</a>)</td>
+				<td><hanzi comp="">⿱⿰⿱雨田⿱雨田⿰⿱雨田⿱雨田</hanzi></td>
+				<td><hanzi comp="">⿰⿳⿱卝吅隹⿲豕豕豕風</hanzi></td>
+				<td><hanzi comp="">⿰⿳雨⿲口口口巫⿱𦥯見</hanzi></td>
+				<td><hanzi comp="">⿰黑⿱⿲木缶木⿱冖⿰鬯彡</hanzi></td>
+				<td><hanzi comp="">⿱⿳⿲山山山⿲右右右⿲右右右⿵門耳</hanzi></td>
+			</tr>
+			<tr>
+				<td class="header">Japanese Ryakuji<br />(<a href="https://en.wikipedia.org/wiki/Ryakuji" title="Ryakuji - Wikipedia" target="_blank">visit link</a>)</td>
+				<td><hanzi comp="" style="font-family:Yu Gothic;">门</hanzi></td>
+				<td><hanzi comp="">⿰木⿱ツ戍</hanzi></td>
+				<td><hanzi comp="">⿺辶⿱ツ共</hanzi></td>
+				<td><hanzi comp="">⿸广マ</hanzi></td>
+				<td><hanzi comp=""></hanzi></td>
+			</tr>
+			<tr>
+				<td class="header">Chữ Nôm<br />(<a href="http://www.chunom.org/shelf/corpus/10/characters/" title="song phụng kỳ duyên" target="_blank">visit link</a>)</td>
+				<td><hanzi comp="">⿱⿰舟𠬠皿</hanzi></td>
+				<td><hanzi comp="">⿰耳軋</hanzi></td>
+				<td><hanzi comp="">⿲木爻阝</hanzi></td>
+				<td><hanzi comp="">⿳丷田灬</hanzi></td>
+				<td><hanzi comp="">⿰者⿱見足</hanzi></td>
+			</tr>
+			<tr>
+				<td class="header">Zhuang/Sawndip<br />(<a href="https://en.wikipedia.org/wiki/Sawndip" title="Sawndip - Wikipedia" target="_blank">visit link</a>)</td>
+				<td><hanzi comp="">⿰書史</hanzi></td>
+				<td><hanzi comp="">⿰立生</hanzi></td>
+				<td><hanzi comp="">⿰𧾷马</hanzi></td>
+				<td><hanzi comp="">⿰丁刂</hanzi></td>
+				<td><hanzi comp=""></hanzi></td>
+			</tr>
+			<tr>
+				<td class="header">Other<br />(<a href="http://www.sinosplice.com/life/archives/2006/02/22/character-creations" title="Character Creations | Sinosplice" target="_blank">visit link</a>)</td>
+				<td><hanzi comp="">⿴囗蒜</hanzi></td>
+				<td><hanzi comp="">⿳吅女吅</hanzi></td>
+				<td><hanzi comp="">⿰鱼⿱肉凹</hanzi></td>
+				<td><hanzi comp="">⿱贝众</hanzi></td>
+				<td><hanzi comp=""></hanzi></td>
+			</tr>
+		</table>
+		<br />
+		<font size="6" id="text-examples">TEXT EXAMPLES</font><br />
+		<script type="text/javascript">
+			var tags = {};
+			tags[""] = "Normal";
+			tags["b"] = "Boldface";
+			tags["i"] = "Italics";
+			tags["span style='color:red;background-color:gray;'"] = "Colour";
+			// test code for hanzi3ex.js:
+			//tags["s"] = "Line-through";
+			//tags["u"] = "Underline";
+			//tags["a href='test.html'"] = "Hyperlink";
+			for(tag in tags){
+				var table = '';
+				table += '<table border="1">';
+					table += '<tr class="header"><th colspan="2">' + tags[tag] + (tag == "" ? "" : " (<tt>&lt;" + tag + "&gt;</tt>)") + '</th></tr>';
+					table += '<tr>';
+						table += '<td class="header">Images for<br />non-Unicode characters</td>';
+						table += '<td style="white-space:nowrap;">' + (tag == "" ? "" : '<' + tag + '>') + '他沒吃過<img alt="Biáng.svg" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Bi%C3%A1ng.svg/100px-Bi%C3%A1ng.svg.png" style="width:var(--schriftgroesse);height:var(--schriftgroesse);" /><img alt="Biáng.svg" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Bi%C3%A1ng.svg/100px-Bi%C3%A1ng.svg.png" style="width:var(--schriftgroesse);height:var(--schriftgroesse);" />麵。' + (tag == "" ? "" : '</' + tag.split(" ")[0] + '>') + '</td>';
+					table += '</tr>';
+					table += '<tr>';
+						table += '<td class="header">SVGs for<br />non-Unicode characters</td>';
+						table += '<td style="white-space:nowrap;">' + (tag == "" ? "" : '<' + tag + '>') + '他沒吃過<hanzi comp="" scales="4:2,6:3">⿺辶⿳穴⿲月⿱⿲幺言幺⿲長馬長刂心</hanzi><hanzi comp="" scales="4:2,6:3">⿺辶⿳穴⿲月⿱⿲幺言幺⿲長馬長刂心</hanzi>麵。' + (tag == "" ? "" : '</' + tag.split(" ")[0] + '>') + '</td>';
+					table += '</tr>';
+					table += '<tr>';
+						table += '<td class="header">SVGs for<br />all characters</td>';
+						table += '<td style="white-space:nowrap;">' + (tag == "" ? "" : '<' + tag + '>') + '<hanzi comp="">⿰亻也</hanzi><hanzi comp="">⿰氵⿱刀又</hanzi><hanzi comp="">⿰口⿱𠂉乙</hanzi><hanzi comp="">⿺辶⿵冎口</hanzi><hanzi comp="" scales="4:2,6:3">⿺辶⿳穴⿲月⿱⿲幺言幺⿲長馬長刂心</hanzi><hanzi comp="" scales="4:2,6:3">⿺辶⿳穴⿲月⿱⿲幺言幺⿲長馬長刂心</hanzi><hanzi comp="">⿰⿱來夂⿱丆囬</hanzi><hanzi comp="">。</hanzi>' + (tag == "" ? "" : '</' + tag.split(" ")[0] + '>') + '</td>';
+					table += '</tr>';
+				table += '</table>';
+				document.write(table);
+			}
+		</script>
+		<br />
+		<font size="6" id="coloured-components">COLOURED COMPONENTS</font><br />
+		<table border="1">
+			<tr>
+				<td><hanzi colors="1:blue,2:red">⿰口馬</hanzi></td>
+				<td><hanzi colors="1:blue,2:red,3:green">⿲言身寸</hanzi></td>
+				<td><hanzi colors="0:blue,3:red,5:green,6:brown,7:orange">⿺辶⿳宀⿰王缶⿲隹貝招</hanzi></td>
+				<td><hanzi scales="4:2,6:3" colors="4:blue,6:red,7:green">⿺辶⿳穴⿲月⿱⿲幺言幺⿲長馬長刂心</hanzi></td>
+			</tr>
+		</table><br />
+		<font size="6" id="different-fonts">DIFFERENT FONTS</font><br />
+		<table border="1">
+			<tr class="header">
+				<th></th>
+				<th>SimSun</th>
+				<th>Microsoft YaHei</th>
+				<th>NSimSun</th>
+				<th>PMingLiU</th>
+				<th>Microsoft JhengHei</th>
+				<th>MingLiU</th>
+				<th>Arial</th>
+				<th>Yu Gothic</th>
+				<th>MS Gothic</th>
+				<th>[tested font]</i></th>
+			</tr>
+			<tr>
+				<th class="header">SVGs</th>
+				<td><hanzi style="font-family:SimSun;">⿰⿳亠从木隹</hanzi></td>
+				<td><hanzi style="font-family:Microsoft YaHei;">⿰⿳亠从木隹</hanzi></td>
+				<td><hanzi style="font-family:NSimSun;">⿰⿳亠从木隹</hanzi></td>
+				<td><hanzi style="font-family:PMingLiU;">⿰⿳亠从木隹</hanzi></td>
+				<td><hanzi style="font-family:Microsoft JhengHei;">⿰⿳亠从木隹</hanzi></td>
+				<td><hanzi style="font-family:MingLiU;">⿰⿳亠从木隹</hanzi></td>
+				<td><hanzi style="font-family:Arial;">⿰⿳亠从木隹</hanzi></td>
+				<td><hanzi style="font-family:Yu Gothic;">⿰⿳亠从木隹</hanzi></td>
+				<td><hanzi style="font-family:MS Gothic;">⿰⿳亠从木隹</hanzi></td>
+				<td><hanzi>⿰⿳亠从木隹</hanzi></td>
+			</tr>
+			<tr>
+				<th class="header">Original</th>
+				<td><span style="font-family:SimSun;">雜</span></td>
+				<td><span style="font-family:Microsoft YaHei;">雜</span></td>
+				<td><span style="font-family:NSimSun;">雜</span></td>
+				<td><span style="font-family:PMingLiU;">雜</span></td>
+				<td><span style="font-family:Microsoft JhengHei;">雜</span></td>
+				<td><span style="font-family:MingLiU;">雜</span></td>
+				<td><span style="font-family:Arial;">雜</span></td>
+				<td><span style="font-family:Yu Gothic;">雜</span></td>
+				<td><span style="font-family:MS Gothic;">雜</span></td>
+				<td><span>雜</span></td>
+			</tr>
+		</table>
+		<script type="text/javascript">
+			document.getElementsByTagName("body")[0].style.fontFamily = params["font"];
+		</script>
+		<script type="text/javascript" src="hanzi-01-v1.0.js"></script>
+		<script type="text/javascript" src="hanzi-02-v1.0.js"></script>
+		<script type="text/javascript" src="hanzi-ext01-v1.0.js"></script>
+	</body>
+</html>

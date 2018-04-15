@@ -1,0 +1,36 @@
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+	</head>
+	<body>
+		<p><b>你<hanzi>⿰女子</hanzi>世界！</b></p>
+		<p><i>你<hanzi>⿰女子</hanzi>世界！</i></p>
+		<p><b><i>你<hanzi>⿰女子</hanzi>世界！</i></b></p>
+		<p><s>你<hanzi>⿰女子</hanzi>世界！</s></p>
+		<p><u>你<hanzi>⿰女子</hanzi>世界！</u></p>
+		<p><a href="https://github.com/tidoe">你<hanzi>⿰女子</hanzi>世界！</a></p>
+		<p><span style="font-family:Yu Gothic;">你<hanzi>⿰女子</hanzi>世界！</span></p>
+		<p><span style='color:red;background-color:gray;'>你<hanzi>⿰女子</hanzi>世界！</span></p>
+		<p>你<hanzi colors="1:blue,2:red">⿰女子</hanzi>世界！</p>
+		<p id="js">你<hanzi>⿰女子</hanzi>世界！
+			<script type="text/javascript">
+				var hanzi = js.getElementsByTagName("hanzi");
+				for(var i = 0; i < hanzi.length; ++i){
+					hanzi[i].setAttribute("colors", "0:red");
+				}
+			</script>
+		</p>
+		<p id="css">
+			<style type="text/css">
+				#css hanzi {
+					color: red;
+				}
+			</style>
+		你<hanzi>⿰女子</hanzi>世界！</p>
+		<p>他沒吃過<hanzi>⿺辶⿳穴⿲月⿱⿲幺言幺⿲長馬長刂心</hanzi><hanzi>⿺辶⿳穴⿲月⿱⿲幺言幺⿲長馬長刂心</hanzi>麵。</p>
+		<p>他沒吃過<hanzi scales="4:2,6:3">⿺辶⿳穴⿲月⿱⿲幺言幺⿲長馬長刂心</hanzi><hanzi scales="4:2,6:3">⿺辶⿳穴⿲月⿱⿲幺言幺⿲長馬長刂心</hanzi>麵。</p>
+		<script type="text/javascript" src="hanzi-01-v1.0.js"></script>
+		<script type="text/javascript" src="hanzi-02-v1.0.js"></script>
+		<script type="text/javascript" src="hanzi-ext01-v1.0.js"></script>
+	</body>
+</html>
