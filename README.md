@@ -75,43 +75,43 @@ For example, 吾 can be written as ⿱五口 and 語 can be written as ⿰言吾
 
 ### More examples
 
-0. Boldface
+1. Boldface
 ```html
 <b>你<hanzi>⿰女子</hanzi>世界！</b>
 ```
-0. Italics
+2. Italics
 ```html
 <i>你<hanzi>⿰女子</hanzi>世界！</i>
 ```
-0. Boldface and italics
+3. Boldface and italics
 ```html
 <b><i>你<hanzi>⿰女子</hanzi>世界！</i></b>
 ```
-0. Struck through
+4. Struck through
 ```html
 <s>你<hanzi>⿰女子</hanzi>世界！</s>
 ```
-0. Underline
+5. Underline
 ```html
 <u>你<hanzi>⿰女子</hanzi>世界！</u>
 ```
-0. Hyperlink
+6. Hyperlink
 ```html
 <a href="https://github.com/tidoe">你<hanzi>⿰女子</hanzi>世界！</a>
 ```
-0. Specified font
+7. Specified font
 ```html
 <span style="font-family:Yu Gothic;">你<hanzi>⿰女子</hanzi>世界！</span>
 ```
-0. Font- and background-color
+8. Font- and background-color
 ```html
 <span style='color:red;background-color:gray;'>你<hanzi>⿰女子</hanzi>世界！</span>
 ```
-0. Coloured components
+9. Coloured components
 ```html
 你<hanzi colors="1:blue,2:red">⿰女子</hanzi>世界！
 ```
-0. With JavaScript
+10. With JavaScript
 ```html
 你<hanzi>⿰女子</hanzi>世界！
 <script type="text/javascript">
@@ -121,7 +121,7 @@ For example, 吾 can be written as ⿱五口 and 語 can be written as ⿰言吾
 	}
 </script>
 ```
-0. With CSS
+11. With CSS
 ```html
 <style type="text/css">
 	hanzi {
@@ -130,11 +130,11 @@ For example, 吾 can be written as ⿱五口 and 語 can be written as ⿰言吾
 </style>
 你<hanzi>⿰女子</hanzi>世界！
 ```
-0. More complex characters
+12. More complex characters
 ```html
 他沒吃過<hanzi>⿺辶⿳穴⿲月⿱⿲幺言幺⿲長馬長刂心</hanzi><hanzi>⿺辶⿳穴⿲月⿱⿲幺言幺⿲長馬長刂心</hanzi>麵。
 ```
-0. More complex characters with scales
+13. More complex characters with scales
 ```html
 他沒吃過<hanzi scales="4:2,6:3">⿺辶⿳穴⿲月⿱⿲幺言幺⿲長馬長刂心</hanzi><hanzi scales="4:2,6:3">⿺辶⿳穴⿲月⿱⿲幺言幺⿲長馬長刂心</hanzi>麵。
 ```
