@@ -1,11 +1,11 @@
 # Changelog
 
-| Script <th colspan=1> Earlier Versions | Newest Version |
+| Script <th colspan=1>Earlier Versions</th> | Newest Version |
 | ------------ | --- | --------- |
-| Script 01    <td colspan=2>1.0 |
+| Script 01    <td colspan=2>1.0</td> |
 | Script 02    | 1.0 |     1.0.1 |
-| Extension 01 <td colspan=2>1.0 |
-| Test         <td colspan=2>1.0 |
+| Extension 01 <td colspan=2>1.0</td> |
+| Test         <td colspan=2>1.0</td> |
 
 ## 1.0.1
 
