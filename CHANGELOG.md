@@ -1,11 +1,29 @@
 # Changelog
 
-| Script <th colspan=1>Earlier Versions</th> | Newest Version |
-| ------------ | --- | --------- |
-| Script 01    <td colspan=2>1.0</td> |
-| Script 02    | 1.0 |     1.0.1 |
-| Extension 01 <td colspan=2>1.0</td> |
-| Test         <td colspan=2>1.0</td> |
+<table>
+	<tr>
+		<th>Script</th>
+		<th colspan="2">Earlier Versions</th>
+		<th>Newest Version</th>
+	</tr>
+	<tr>
+		<td>Script 01</td>
+		<td colspan=2>1.0</td>
+	</tr>
+	<tr>
+		<td>Script 02</td>
+		<td>1.0</td>
+		<td>1.0.1</td>
+	</tr>
+	<tr>
+		<td>Extension 01</td>
+		<td colspan=2>1.0</td>
+	</tr>
+	<tr>
+		<td>Test</td>
+		<td colspan=2>1.0</td>
+	</tr>
+</table>
 
 ## 1.0.1
 
