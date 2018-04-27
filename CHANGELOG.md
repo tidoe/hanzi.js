@@ -3,7 +3,7 @@
 <table>
 	<tr>
 		<th>Script</th>
-		<th colspan="2">Earlier Versions</th>
+		<th colspan="1">Earlier Versions</th>
 		<th>Newest Version</th>
 	</tr>
 	<tr>
