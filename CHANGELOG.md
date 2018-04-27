@@ -1,5 +1,12 @@
 # Changelog
 
+| Script <th colspan=1> Earlier Versions | Newest Version |
+| ------------ | --- | --------- |
+| Script 01    <td colspan=2>1.0 |
+| Script 02    | 1.0 |     1.0.1 |
+| Extension 01 <td colspan=2>1.0 |
+| Test         <td colspan=2>1.0 |
+
 ## 1.0.1
 
 **Script 02**
