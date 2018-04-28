@@ -365,6 +365,21 @@ To convert your .tex file follow the subsequent instructions:
 7. You can now move the downloaded files to wherever you want and compile the new LaTeX document. The converted .tex file needs the .png files to be located in the same folder.
 8. If you want to put them in a subfolder, e.g. "hanzis", you can do so and change the graphics path in the new document by inserting `\graphicspath{{hanzis/}}` somewhere after `\usepackage{graphicx}` in the preamble. Be aware of that this change will also affect other graphics which you originally included.
 
+The output for the LaTeX example from above looks like this:
+```latex
+\documentclass[a4paper,12pt]{article}
+\usepackage{CJK}
+\usepackage{graphicx}
+\newcommand{\hanzi}[1]{#1}
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}
+你好世界！
+
+\hanzi{\includegraphics[height=12pt]{hanzi-0.png}}\hanzi{\includegraphics[height=12pt]{hanzi-1.png}}世\hanzi{\includegraphics[height=12pt]{hanzi-2.png}}！
+\end{CJK}
+\end{document}
+```
+
 ### Comments on coding
 
 - The font size specified as optional parameter in the `\documentclass{}` command will be the default font size for the SVG creator. If no font size is specified, it will be assumed to be `10pt`; exept for the document class `slides` where it will be assumed to be `20pt`.
