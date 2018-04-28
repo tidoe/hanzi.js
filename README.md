@@ -361,7 +361,7 @@ To convert your .tex file follow the subsequent instructions:
 3. On the converter page, select the .tex file which you want to convert. The script will immeadetely start working.
 4. If you execute it the first time, your browser possibly blocks pop-ups and/or multiple downloads. You have to allow everything for this page. (No worry, it's an offline script and does not download anything from the internet.)
 5. The script will save the converted .tex file and a .png file for every created character on your computer, probably in your downloads folder. For every downloaded file a new tab will open. These tabs should close after 5 seconds automatically.
-6. For the first time, I recommend to execute the onverter twice (because of the permission issue explained in point 4). Clear your download folder before executing it again. To be able to run the converter again you have to reload the page. Now, everything should work without permission issues.
+6. For the first time, I recommend to execute the converter twice (because of the permission issue explained in point 4). Clear your download folder before executing it again. To be able to run the converter again you have to reload the page. Now, everything should work without permission issues.
 7. You can now move the downloaded files to wherever you want and compile the new LaTeX document. The converted .tex file needs the .png files to be located in the same folder.
 8. If you want to put them in a subfolder, e.g. "hanzis", you can do so and change the graphics path in the new document by inserting `\graphicspath{{hanzis/}}` somewhere after `\usepackage{graphicx}` in the preamble. Be aware of that this change will also affect other graphics which you originally included.
 
