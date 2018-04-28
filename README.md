@@ -1,11 +1,12 @@
 # hanzi.js
 
-Representation of (non-)Unicode Chinese characters in HTML using SVGs
+Representation of (non-)Unicode Chinese characters in HTML and LaTeX using SVGs
 
 ## Table of contents
 
 - [Instructions](#instructions)
   - [First example](#first-example)
+  - [Version handling](#version-handling)
   - [Character description language](#character-description-language)
   - [More examples](#more-examples)
 - [Tag attributes](#tag-attributes)
@@ -22,16 +23,20 @@ Representation of (non-)Unicode Chinese characters in HTML using SVGs
   - [Define and test new parameters](#define-and-test-new-parameters)
   - [Set the font of the document](#set-the-font-of-the-document)
 - [Adaptability](#adaptability)
+  - [color](#color)
   - [font-family](#font-family)
   - [font-size](#font-size)
   - [font-style](#font-style)
   - [font-weight](#font-weight)
-  - [text-color](#text-color)
   - [text-decoration](#text-decoration)
 - [Conversion instructions](#conversion-instructions)
   - [To PDF](#to-pdf)
   - [To script-less HTML](#to-script-less-html)
   - [To various image file formats](#to-various-image-file-formats)
+- [LaTeX extension](#latex-extension)
+  - [LaTeX example](#latex-example)
+  - [LaTeX converter](#latex-converter)
+  - [Comments on coding](#comments-on-coding)
 - [License](#license)
 
 ## Instructions
@@ -56,6 +61,14 @@ Here's a minimal example of an HTML document which uses hanzi.js:
 **Note:** You have to download the .js files and place them in the same folder as your HTML document or modify the path in the `src` attributes of the `<script>` tags.
 
 The `<script>` tags must be included right before `</body>`.
+
+### Version handling
+
+hanzi.js consists of several scripts and other files. A new version does not necessarily come along with a new version of every file. The newest versions of every file are directly in the master branch whereas earlier versions can be found in the respective subbranch.
+
+The version number is contained in every file name. For example, "hanzi-01-v1.0.1.js" is of version 1.0.1. The examples given here name version 1.0, but work totally fine with newer versions if not stated otherwise. See the changelog to get an overview of all versions.
+
+The head comment in each file states which scripts and rougly where they are loaded, so the user can manually change the version for every loaded script.
 
 ### Character description language
 
@@ -246,6 +259,12 @@ If you want to determine the font of your document, include the following snippe
 
 ## Adaptability
 
+### color
+
+The created character will inherit the text-color of the parent element.
+
+See [Tag attributes](#tag-attributes) \\ [colors](#colors) for how to change the colour of a single component.
+
 ### font-family
 
 The created character will inherit the font-family of the parent element. Overlappings of or larger spaces between the single components can occur if no font-specific parameters are defined for that font. Parameters are defined for Arial, Microsoft JhengHei, Microsoft YaHei, MingLiU, MS Gothic, NSimSun, PMingLiU, SimSun and Yu Gothic.
@@ -265,12 +284,6 @@ If the font-style of the parent element is italics/oblique then the single chara
 The single components of a created character are scaled and stretched to different degrees which also leads to different font-weights within one character. To counteract, smaller components get a higher font-weight (which in HTML/CSS ranges from 100 to 900 in incremets of 100) via the formula 900-(900-w)\*(sx\*sy)-100 where w is the inherited font-weight and sx and sy are the stretch factors for width and height, respectively.
 
 For example, in the composition ⿰口馬 both components have sx=0.5 and sy=1.0 and inherit a text-width of 400 (for normal text). The font-weight for each component thus is set to 900-(900-400)\*(0.5\*1.0)-100=550≈600.
-
-### text-color
-
-The created character will inherit the text-color of the parent element.
-
-See [Tag attributes](#tag-attributes) \\ [colors](#colors) for how to change the colour of a single component.
 
 ### text-decoration
 
@@ -311,6 +324,56 @@ Convert a single created character of an HTML document which uses hanzi.js to an
 7. Now you can convert the .jpg file to other image file formats.
 
 **Note:** The direct conversion of the .svg file to a .png file produces an erroneous result. Hence I recommend first convert it to .jpg.
+
+## LaTeX extension
+
+### LaTeX example
+
+To use characters created by hanzi.js within LaTeX you first have to write a usual LaTeX document like this:
+```latex
+\documentclass[a4paper,12pt]{article}
+\usepackage{CJK}
+\usepackage{graphicx}
+\newcommand{\hanzi}[1]{\fbox{?}}
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}
+你好世界！
+
+\hanzi{⿰亻尔}\hanzi{⿰女子}世\hanzi{⿱田介}！
+\end{CJK}
+\end{document}
+```
+
+The [`CJK`](https://en.wikibooks.org/wiki/LaTeX/Internationalization#Chinese) package makes it possible to include Chinese characters. The [`graphicx`](https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics#Importing_external_graphics) package makes it possible to include graphics and is required later.
+
+Include the line `\newcommand{\hanzi}[1]{\fbox{?}}` into the preamble to define the `\hanzi{}` command. This will for now only produce a box with a question mark.
+
+After finishing the document you can use the LaTeX converter to replace the question mark boxes with the actual graphics.
+
+**Note:** You should apply the converter to your .tex file only once; converting it a second time would break it.
+
+### LaTeX converter
+
+To convert your .tex file follow the subsequent instructions:
+
+1. Save the Hanzi-to-TeX Converter (`hanzi-2text-v1.0.1.html`) on your computer and open it in a browser. The LaTeX converter was tested on Chrome. Problems could occur when running it in other browsers.
+2. Better clear your download folder.
+3. On the converter page, select the .tex file which you want to convert. The script will immeadetely start working.
+4. If you execute it the first time, your browser possibly blocks pop-ups and/or multiple downloads. You have to allow everything for this page. (No worry, it's an offline script and does not download anything from the internet.)
+5. The script will save the converted .tex file and a .png file for every created character on your computer, probably in your downloads folder. For every downloaded file a new tab will open. These tabs should close after 5 seconds automatically.
+6. For the first time, I recommend to execute the onverter twice (because of the permission issue explained in point 4). Clear your download folder before executing it again. To be able to run the converter again you have to reload the page. Now, everything should work without permission issues.
+7. You can now move the downloaded files to wherever you want and compile the new LaTeX document. The converted .tex file needs the .png files to be located in the same folder.
+8. If you want to put them in a subfolder, e.g. "hanzis", you can do so and change the graphics path in the new document by inserting `\graphicspath{{hanzis/}}` somewhere after `\usepackage{graphicx}` in the preamble. Be aware of that this change will also affect other graphics which you originally included.
+
+### Comments on coding
+
+- The font size specified as optional parameter in the `\documentclass{}` command will be the default font size for the SVG creator. If no font size is specified, it will be assumed to be `10pt`; exept for the document class `slides` where it will be assumed to be `20pt`.
+- The LaTeX boldface command `\textbf{}` corresponds to `<b></b>`.
+- Since italics are not supported for Chinese characters in LaTeX, i.e. `\textit{}` will not produce cursive characters, the created SVGs won't be in italics style either when they are placed within `\textit{\hanzi{}}`.
+- Underlines and line-throughs can be produced in plain LaTeX and without hanzi.js. For example, one can use the `ulem` package which defines the commands `\uline{}` and `\sout{}` for an underline or a line-through, respectively.
+- The CJK package allows several font options. The fonts `gbsn` and `gkai` for simplified Chinese as well as `bsmi` and `bkai` for traditional Chinese will be equivalented to `SimSun` and `KaiTi` as well as `PMingLiU` and `DFKai-SB`, respectively. For other fonts, SimSun is set as default. These settings can be manually changed in the Hanzi-to-TeX Converter file after `<script type="text/javascript">`.
+- The CJK package does not support a mixing of simplified and traditional characters. For example, if one types `我寫漢字。` and the selected font is `gbsn` or `gkai`, only `我字。` will be displayed. However, if one types `我\hanzi{寫}\hanzi{漢}字。`, the complete sequence will be displayed after running the converter.
+- The converter analyses the document's structure on basis of opening and closing `{`s and `}`s as well as environments. Escaped elements like `\}` and `\\\}` (but not `\\}`) or `\\begin{small}` and so on are ignored successfully. However, backslashes are not the only way to escape elements: Code snippets like `\begin{small}\begin{verbatim}\end{small}\end{verbatim}\end{small}` will probably produce a flawed outcome and should be avoided.
 
 ## License
 
