@@ -5,32 +5,40 @@
 <table>
 	<tr>
 		<th>Script</th>
-		<th colspan="1">Earlier Versions</th>
+		<th colspan=2>Earlier Versions</th>
 		<th>Newest Version</th>
 	</tr>
 	<tr>
 		<td>Hanzi 01</td>
-		<td colspan=2>1.0</td>
+		<td colspan=3>1.0</td>
 	</tr>
 	<tr>
 		<td>Hanzi 02</td>
 		<td>1.0</td>
 		<td>1.0.1</td>
+		<td>1.1</td>
 	</tr>
 	<tr>
 		<td>Extension 01</td>
-		<td colspan=2>1.0</td>
+		<td colspan=3>1.0</td>
 	</tr>
 	<tr>
 		<td>Test</td>
-		<td colspan=2>1.0</td>
+		<td colspan=3>1.0</td>
 	</tr>
 	<tr>
 		<td>Hanzi-To-TeX</td>
 		<td></d>
-		<td>1.0.1</td>
+		<td colspan=2>1.0.1</td>
 	</tr>
 </table>
+
+## 1.1
+
+**Hanzi 02**
+
+- Hidden overflow at an SVG's bottom is now visible.
+- The `dset` attribute is introduced.
 
 ## 1.0.1
 
