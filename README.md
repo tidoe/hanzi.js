@@ -10,8 +10,9 @@ Representation of (non-)Unicode Chinese characters in HTML and LaTeX using SVGs
   - [Character description language](#character-description-language)
   - [More examples](#more-examples)
 - [Tag attributes](#tag-attributes)
-  - [comp](#comp)
   - [colors](#colors)
+  - [comp](#comp)
+  - [dset](#dset)
   - [scales](#scales)
 - [Font-specific parameters](#font-specific-parameters)
   - [Necessity](#necessity)
@@ -154,12 +155,6 @@ For example, 吾 can be written as ⿱五口 and 語 can be written as ⿰言吾
 
 ## Tag attributes
 
-### comp
-
-This attribute is for testing. You can pass the original character which will then be drawn under the produced character in orange.
-
-For example, `<hanzi comp="嗎">⿰口馬</hanzi>` can be used to compare the character produced by ⿰口馬 with the original character 嗎.
-
 ### colors
 
 Single components can be coloured by passing the component's index (counted from 0) and a colour name. This is useful for, e.g., marking the phonetic and semantic components. Index and colour name must be separated by a colon and index-colour pairs must be separated by commas.
@@ -167,6 +162,20 @@ Single components can be coloured by passing the component's index (counted from
 For example, `<hanzi colors="1:blue,2:red">⿰口馬</hanzi>` colours 口 blue and 馬 red.
 
 If a descriptor is at the index's position, every of its components will be coloured (if not having attributed an own colour name).
+
+### comp
+
+This attribute is for testing. You can pass the original character which will then be drawn under the produced character in orange.
+
+For example, `<hanzi comp="嗎">⿰口馬</hanzi>` can be used to compare the character produced by ⿰口馬 with the original character 嗎.
+
+### dset
+
+In case you cannot or do not want to enter the descriptor symbols, you can define a new set. The value of the attribute has to be a string of the form ⬚⿰⿱⿴⿵⿶⿷⿸⿹⿺⿻⿲⿳△ in which every descriptor was replaced by its new correspondence.
+
+For example, `<hanzi dset="O-^@MWCPTLXHZA">^-口口馬</hanzi>` produces (the hanzi.js version of) 駡.
+
+This is especially useful if your HTML document uses another charset than UTF-8, e.g. Big5 in which the descriptors are not encoded. In this case you must add `charset="UTF-8"` to the `<script>` tags which load the hanzi.js scripts since the new descriptors are internally replaced by the original ones.
 
 ### scales
 
