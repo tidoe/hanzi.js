@@ -29,7 +29,8 @@
 	<tr>
 		<td>Hanzi-To-TeX</td>
 		<td></d>
-		<td colspan=2>1.0.1</td>
+		<td>1.0.1</td>
+		<td>1.1</td>
 	</tr>
 </table>
 
@@ -39,6 +40,10 @@
 
 - Hidden overflow at an SVG's bottom is now visible.
 - The `dset` attribute is introduced.
+
+**Hanzi-To-TeX**
+
+- Paths for loading of Hanzi 01 and 02 are corrected.
 
 ## 1.0.1
 
