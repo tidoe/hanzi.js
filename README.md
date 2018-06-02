@@ -398,6 +398,7 @@ The output for the LaTeX example from above looks like this:
 - The CJK package allows several font options. The fonts `gbsn` and `gkai` for simplified Chinese as well as `bsmi` and `bkai` for traditional Chinese will be equivalented to `SimSun` and `KaiTi` as well as `PMingLiU` and `DFKai-SB`, respectively. For other fonts, SimSun is set as default. These settings can be manually changed in the Hanzi-to-TeX Converter file after `<script type="text/javascript">`.
 - The CJK package does not support a mixing of simplified and traditional characters. For example, if one types `我寫漢字。` and the selected font is `gbsn` or `gkai`, only `我字。` will be displayed. However, if one types `我\hanzi{寫}\hanzi{漢}字。`, the complete sequence will be displayed after running the converter.
 - The converter analyses the document's structure on basis of opening and closing `{`s and `}`s as well as environments. Escaped elements like `\}` and `\\\}` (but not `\\}`) or `\\begin{small}` and so on are ignored successfully. However, backslashes are not the only way to escape elements: Code snippets like `\begin{small}\begin{verbatim}\end{small}\end{verbatim}\end{small}` will probably produce a flawed outcome and should be avoided.
+- Tag attributes can be passed inside brackets, e.g. `\hanzi{[colors="1:blue,2:red" comp="嗎"]⿰口馬}`.
 
 ## License
 
