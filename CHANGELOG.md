@@ -5,34 +5,42 @@
 <table>
 	<tr>
 		<th>Script</th>
-		<th colspan=2>Earlier Versions</th>
+		<th colspan=3>Earlier Versions</th>
 		<th>Newest Version</th>
 	</tr>
 	<tr>
 		<td>Hanzi 01</td>
-		<td colspan=3>1.0</td>
+		<td colspan=4>1.0</td>
 	</tr>
 	<tr>
 		<td>Hanzi 02</td>
 		<td>1.0</td>
 		<td>1.0.1</td>
-		<td>1.1</td>
+		<td colspan=2>1.1</td>
 	</tr>
 	<tr>
 		<td>Extension 01</td>
-		<td colspan=3>1.0</td>
+		<td colspan=4>1.0</td>
 	</tr>
 	<tr>
 		<td>Test</td>
-		<td colspan=3>1.0</td>
+		<td colspan=4>1.0</td>
 	</tr>
 	<tr>
 		<td>Hanzi-To-TeX</td>
 		<td></d>
 		<td>1.0.1</td>
 		<td>1.1</td>
+  		<td>1.2</td>
 	</tr>
 </table>
+
+## 1.2
+
+**Hanzi-To-TeX**
+
+- The \hanzi{} command's structure was slightly simplified.
+- Identical generated characters are downloaded only once.
 
 ## 1.1
 
