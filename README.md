@@ -379,12 +379,12 @@ The output for the LaTeX example from above looks like this:
 \documentclass[a4paper,12pt]{article}
 \usepackage{CJK}
 \usepackage{graphicx}
-\newcommand{\hanzi}[1]{#1}
+\newcommand{\hanzi}[2]{\includegraphics[height=#1]{#2.png}}
 \begin{document}
 \begin{CJK}{UTF8}{gbsn}
 你好世界！
 
-\hanzi{\includegraphics[height=12pt]{hanzi-0.png}}\hanzi{\includegraphics[height=12pt]{hanzi-1.png}}世\hanzi{\includegraphics[height=12pt]{hanzi-2.png}}！
+\hanzi{12pt}{0-0}\hanzi{12pt}{1-0}世\hanzi{12pt}{2-0}！
 \end{CJK}
 \end{document}
 ```
