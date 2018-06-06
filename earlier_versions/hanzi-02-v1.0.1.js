@@ -3,7 +3,7 @@
  script:      Hanzi 02
  version:     1.0.1
  author:      Tillmann Doenicke
- date:        2018-04-26
+ date:        2018-04-28
 
  This script has to be loaded after Hanzi 01.
 
