@@ -1,0 +1,424 @@
+<!-------------------------------------------------------------------------------
+
+ script:      Hanzi-to-TeX Converter
+ version:     1.3
+ author:      Tillmann Doenicke
+ date:        2018-06-06
+
+ This script loads Hanzi 01 and Hanzi 02 after <script type="text/javascript">.
+
+-------------------------------------------------------------------------------->
+
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+	</head>
+	<body>
+		<div style="font-family: Arial;">
+			<p>Select the .tex file you want to convert.</p>
+			<p>The script will save the converted .tex file and a .png file for every created character.</p>
+			<p>Make sure that you allow pop-ups and the downloading of multiple files for this page!</p>
+			<p>The download windows should close automatically after 5 seconds.</p>
+			<input type="file" id="fileinput"/>
+		</div>
+		<div id="output" style="display:none;"></div>   <!-- The generated <hanzi> tags will be put inside here -->
+		<div id="scripts" style="display:none;"></div>  <!-- The hanzi.js scripts will be loaded inside here -->
+		<div id="links" style="display:none;"></div>    <!-- The generated download links will be put inside here -->
+		<script type="text/javascript">
+			// specify the version and path of the hanzi.js scripts 01 and 02:
+			var scr1 = "hanzi-01-v1.0.js";
+			var scr2 = "hanzi-02-v1.3.js";
+			// Here you can define which fonts will be used for the CJK fonts in the browser.
+			// For example, "\begin{CJK}{bsmi}" will cause the use of "PMingLiU" for the generated hanzi.
+			var latexFonts = ["gbsn",   "gkai",  "bsmi",     "bkai"    ];
+			var htmlFonts =  ["SimSun", "KaiTi", "PMingLiU", "DFKai-SB"];
+			var defaultFont = "SimSun"; // used in cases where no font is set
+			// In case the text colour in the LaTeX document is defined globally (and not via, e.g., "\color{red}",
+			// the default colour for the generated hanzi should be changed here:
+			var defaultColor = "black";
+			// Check for the various File API support:
+			if(window.File && window.FileReader && window.FileList && window.Blob){
+				function readSingleFile(evt){
+					//Retrieve the first (and only!) File from the FileList object:
+					var f = evt.target.files[0];
+					if(f){
+						var r = new FileReader();
+						r.onload = function(e){
+							var contents = e.target.result; // the contents of the LaTeX file
+							// retrieve font size (the default normalsize is 10pt):
+							var match = contents.match(/\\documentclass\[([^\]]*\D)?(\d+)pt[^\]]*\]/m);
+							var fs = (match == null) ? "10" : parseInt(match[2]);
+							// retrieve documentclass:
+							match = contents.match(/\\documentclass(\[[^\]]*\])?{([a-z]+)}/m);
+							var docClass = (match == null) ? null : match[2];
+							// The following lines define the sizeEnvironments in LaTeX and a sizeTable, so that
+							// sizeTable[document's font size][index in sizeEnvironment] = actual font size
+							// can be looked up within every sizeEnvironment of the document:
+							var sizeEnvironments = ["HUGE", "Huge", "huge", "LARGE", "Large", "large", "normalsize", "small", "footnotesize", "scriptsize", "tiny", "miniscule"].reverse();
+							var sizeTable = {};
+							if(["memoir", "amsart"].indexOf(docClass) > -1){
+								var sizes = ["4", "5", "6", "7", "8", "9", "10", "11", "12", "14", "17", "20", "25", "30", "36", "48", "60", "72", "84", "96", "108", "120", "132"];
+								for(var i = 0; i < sizeEnvironments.length; ++i){
+									sizeTable[sizes[i+5]] = sizes.slice(i, i+sizeEnvironments.length);
+								}
+							}
+							else if(docClass == "slides"){
+								fs = "20"; // change default normalsize to 20pt
+								sizeTable["20"] = [null, "14", "17", "17", "17", "20", "24", "29", "34", "41", "41", null];
+							}
+							else { // article, scrartcl, book, beamer etc.
+								sizeTable["10"] = [null, "5", "7",  "8",  "9", "10", "12", "14", "17", "20", "25", null];
+								sizeTable["11"] = [null, "6", "8",  "9", "10", "11", "12", "14", "17", "20", "25", null];
+								sizeTable["12"] = [null, "6", "8", "10", "11", "12", "14", "17", "20", "25", "25", null];
+							}
+							// LaTeX-HTML correspondences:
+							var tex2html = [["textbf", "b"], ["textsubscript", "sub"], ["textsuperscript", "sup"]].reverse();
+							// A function to check whether the character in "contents" at position "i" is escaped or not
+							// (it is considered escaped if it is preceded by an odd number of backslashes):
+							function isEscaped(contents, i){
+								var j = i;
+								while(j > 0 && contents.charAt(j-1) == "\\"){
+									--j;
+								}
+								if((i-j) % 2 == 1){
+									return true;
+								}
+								return false;
+							}
+							var currentFont = defaultFont;
+							var colorScopes = [[0, contents.length, defaultColor]];
+							var openCommands = [];     // possible values: "textbf", "#other#"
+							var openEnvironments = []; // possible values: all values of sizeEnvironment, "#other#"
+							var characters = []; // different characters in the document
+							var properties = []; // different property combinations, e.g. "PMingLiU-12pt-black-b" in the document
+							var szCommandEnd = -1; // end of the scope of a current size command, e.g. "\small"; -1 if no current size command
+							cLoop: for(var i = 0; i < contents.length; ++i){ // for every character ("c") in the document:
+								// close size "environment" which was openend by a size command:
+								if(szCommandEnd > -1 && i == szCommandEnd){
+									openEnvironments.pop();
+									szCommandEnd = -1;
+								}
+								var c = contents.charAt(i);
+								if(c == "{" || c == "}"){
+									// The IF statement shall not catch escaped "{"s and "}"s:
+									if(isEscaped(contents, i)){
+										continue;
+									}
+									// 
+									if(c == "{"){
+										// If the "{" belongs to a "\hanzi{}" command:
+										if(contents.substring(Math.max(0, i-6), Math.max(0, i)) == "\\hanzi" && !isEscaped(contents, Math.max(0, i-6))){
+											// Store the inner of the "\hanzi{}" command in the variable  "hanzi":
+											var hanzi = "";
+											var j = i;
+											while(j < contents.length-1 && !(contents.charAt(j+1) == "}")){
+												hanzi += contents.charAt(j+1);
+												++j;
+											}
+											// Store the current actual font size in the variable "fx":
+											var fx = fs;
+											for(var k = openEnvironments.length-1; k >= 0; --k){
+												if(!(openEnvironments[k] == "#other#")){
+													fx = sizeTable[fs][sizeEnvironments.indexOf(openEnvironments[k])];
+													break;
+												}
+											}
+											// Store the current text colour in the variable "cx":
+											var cx = null;
+											for(var k = 0; k < colorScopes.length; ++k){
+												var scope = colorScopes[k];
+												if(scope[0] <= i && scope[1] >= i){
+													cx = scope[2];
+												}
+											}
+											// Convert the non-"#other#" LaTeX commands to HTML tags:
+											var opening = "";
+											var closing = "";
+											var ocs = "";
+											for(var k = 0; k < openCommands.length; ++k){
+												if(!(openCommands[k] == "#other#")){
+													opening += "<" + openCommands[k] + ">";
+													closing = "</" + openCommands[k] + ">" + closing;
+													ocs += "-" + openCommands[k];
+												}
+											}
+											// Get the arguments part of "hanzi" which is inside brackets (if existing):
+											match = hanzi.match(/([^\[]*)(\[([^\]]*)\])?(.*)/m);
+											args = (match[3] == null) ? "" : " " + match[3];
+											// Make the title out of the characters' and the properties' indices
+											// (hanzi tags with the same title have identical content):
+											var props = [currentFont, fx + "pt", cx + ocs, args].join("-");
+											var propsIdx = properties.indexOf(props);
+											if(propsIdx == -1){ properties.push(props); propsIdx = properties.length-1; }
+											var charsIdx = characters.indexOf(hanzi);
+											if(charsIdx == -1){ characters.push(hanzi); charsIdx = characters.length-1; }
+											title = charsIdx.toString() + "-" + propsIdx.toString();
+											// construct the HTML version:
+											var html = "";
+											html += opening;                                 // opening tags
+											html += "<hanzi title='" + title + "' style='";  // open opening hanzi tag and style attribute
+											html += "font-family:" + currentFont + ";";      // set font-family
+											html += "font-size:" + fx + "pt;";               // set font-size
+											html += "color:" + cx + ";";                     // set text colour
+											html += "'" + args + ">";                        // close style attribute and opening hanzi tag
+											html += hanzi;                                   // the inner HTML (note that it still contains the arguments within
+											                                                 // ... the brackets; they will be used later and removed afterwards)
+											html += "</hanzi>";                              // closing hanzi tag
+											html += closing;                                 // closing tags
+											// append it to the div:
+											document.getElementById("output").innerHTML += html;
+										}
+										// If the "{" belongs to a "\color{}" command:
+										else if(contents.substring(Math.max(0, i-6), Math.max(0, i)) == "\\color" && !isEscaped(contents, Math.max(0, i-6))){
+											// The following lines compute the scope of the "\color{}" command. The scope starts at the command itself and ends at
+											// either a closing command ("}") or a closing environment ("\end{}") whose opening is before the "\color{}" command:
+											var colorx = "";
+											// variables for number of opened and closed commands/environments:
+											var oc = 2; // one for the current "\color{}" command and one for the parent command/environment
+											var cc = 0;
+											var j = i;
+											while(j < contents.length-1 && !(oc == cc)){ // if the number is equal then the parent command/environment has closed
+												if(!isEscaped(contents, j+1) && (contents.charAt(j+1) == "{" || contents.substring(j+1, Math.min(j+8, contents.length)) == "\\begin{")){
+													oc += 1;
+												}
+												else if(!isEscaped(contents, j+1) && (contents.charAt(j+1) == "}" || contents.substring(j+1, Math.min(j+6, contents.length)) == "\\end{")){
+													if(cc == 0){
+														colorx = contents.substring(i+1, j+1); // determine the colour name, i.e. the inner of the "\color{}" command
+													}
+													cc += 1;
+												}
+												++j;
+											}
+											colorScopes.push([i-6, j, colorx]); // add the new colour scope to the list of colour scopes
+										}
+										/*// If the "{" belongs to a "\textbf{}" command:
+										else if(contents.substring(Math.max(0, i-7), Math.max(0, i)) == "\\textbf" && !isEscaped(contents, Math.max(0, i-7))){
+											openCommands.push("b");
+										}*/
+										else {
+											// If the "{" belongs to one of the LaTeX-HTML correspondences:
+											for(var k = 0; k < tex2html.length; ++k){
+												var tex = tex2html[k][0];
+												var html = tex2html[k][1];
+												if(contents.substring(Math.max(0, i-tex.length-1), Math.max(0, i)) == "\\" + tex && !isEscaped(contents, Math.max(0, i-tex.length-1))){
+													openCommands.push(html);
+													continue cLoop; // continue outer loop
+												}
+											}
+											openCommands.push("#other#");
+											// If the "{" belongs to an opening evironment ("\begin{}"):
+											if(contents.substring(Math.max(0, i-6), Math.max(0, i)) == "\\begin" && !isEscaped(contents, Math.max(0, i-6))){
+												// Save the evironment's name in the variable "envstr":
+												var envstr = "";
+												var j = i;
+												while(j < contents.length-1 && !(contents.charAt(j+1) == "}")){
+													envstr += contents.charAt(j+1);
+													++j;
+												}
+												if(sizeEnvironments.indexOf(envstr) > -1){ // if it's a font size environment
+													openEnvironments.push(envstr);
+												}
+												else if(envstr.substr(0, 3) == "CJK"){ // if it's a font family environment
+													// update the current (HTML) font family:
+													match = contents.substr(i).match(/{CJK[^}]*}{[^}]*}{([^}]+)}/m);
+													var fontx = (match == null) ? "" : match[1];
+													if(fontx.length > 0 && latexFonts.indexOf(fontx) > -1){
+														currentFont = htmlFonts[latexFonts.indexOf(fontx)];
+													}
+													openEnvironments.push("#other#");
+												}
+												else {
+													openEnvironments.push("#other#");
+												}
+											}
+										}
+									}
+									else {
+										// remove open commands and open environments:
+										openCommands.pop();
+										var j = i;
+										while(j > 0 && !(contents.charAt(j-1) == "{")){
+											--j;
+										}
+										if(contents.substring(Math.max(0, j-5), Math.max(0, j-1)) == "\\end" && !isEscaped(contents, Math.max(0, i-5))){
+											openEnvironments.pop();
+										}
+									}
+								}
+								// If a "\" belongs to a font size command:
+								else if(c == "\\" && !isEscaped(contents, i)){
+									var szCommandOpen = false;
+									// "\footnote" and "\footnotetext" also cause footnotesize:
+									var fnSizeEnvironments = ["footnote", "footnotetext"];
+									for(var k = 0; k < fnSizeEnvironments.length; ++k){
+										var sz = fnSizeEnvironments[k] + "{";
+										if(contents.substring(Math.min(contents.length-1, i), Math.min(contents.length-1, i+1+sz.length)) == "\\" + sz){
+											openEnvironments.push("footnotesize");
+											szCommandOpen = true;
+											break;
+										}
+									}
+									// The real size commands:
+									for(var k = 0; k < sizeEnvironments.length; ++k){
+										var sz = sizeEnvironments[k];
+										if(contents.substring(Math.min(contents.length-1, i), Math.min(contents.length-1, i+1+sz.length)) == "\\" + sz){
+											openEnvironments.push(sz);
+											szCommandOpen = true;
+											break;
+										}
+									}
+									if(szCommandOpen){
+										// The following lines compute the scope of the font size command. The scope starts at the command itself and ends at
+										// either a closing command ("}") or a closing environment ("\end{}") whose opening is before the "\color{}" command
+										// or a new font size command:
+										// variables for number of opened and closed commands/environments:
+										var oc = 1; // one for the parent command/environment
+										var cc = 0;
+										var j = i+sz.length;
+										while(j < contents.length-1 && !(oc == cc)){ // if the number is equal then the parent command/environment has closed
+											if(!isEscaped(contents, j+1) && (contents.charAt(j+1) == "{" || contents.substring(j+1, Math.min(j+8, contents.length)) == "\\begin{")){
+												oc += 1;
+											}
+											else if(!isEscaped(contents, j+1) && (contents.charAt(j+1) == "}" || contents.substring(j+1, Math.min(j+6, contents.length)) == "\\end{")){
+												cc += 1;
+											}
+											else if(oc == cc+1 && contents.charAt(j+1) == "\\" && !isEscaped(contents, j+1)){
+												for(var n = 0; n < sizeEnvironments.length; ++n){
+													var sz2 = sizeEnvironments[n];
+													if(contents.substring(Math.min(contents.length-1, j+2), Math.min(contents.length-1, j+2+sz2.length)) == sz2){
+														cc += 1;
+														break;
+													}
+												}
+											}
+											++j;
+										}
+										szCommandEnd = j;
+									}
+								}
+							}
+							// Replace the inner of every "\hanzi{}" command by an "\includegraphics{}" command:
+							var changedContents = contents;
+							var hanzis = document.getElementsByTagName("hanzi");
+							for(var i = 0; i < hanzis.length; ++i){
+								var seq = hanzis[i].innerHTML;
+								var fx = hanzis[i].style.fontSize;
+								var title = hanzis[i].title;
+								changedContents = changedContents.replace("\\hanzi{" + seq + "}", "\\hanzi{" + fx.toString() + "}{" + title + "}");
+								// Remove the arguments in brackets from the hanzi tags innerHTML:
+								match = seq.match(/([^\[]*)(\[([^\]]*)\])?(.*)/m);
+								hanzi = match[1] + match[4];
+								hanzis[i].innerHTML = hanzi;
+							}
+							// Modify the definition of the "\hanzi{}" command:
+							changedContents = changedContents.replace("\\newcommand{\\hanzi}[1]{\\fbox{?}}", "\\newcommand{\\hanzi}[2]{\\ifdeflength{\\hanziheight}{}{\\newlength{\\hanziheight}}\\setlength{\\hanziheight}{#1}\\raisebox{-0.05\\hanziheight}{\\adjincludegraphics[height=\\hanziheight,trim={0 {0.5\\height} {0.5\\width} 0},clip]{#2.png}}}");
+							// A function which simluates the click on a link and opening in a new tab which is closed after 5 seconds:
+							// (source: https://stackoverflow.com/questions/18395908/click-multiple-href-download-links)
+							function JustclickLink(link){
+								var cancelled = false;
+								if(document.createEvent){
+									var event = document.createEvent("MouseEvents");
+									event.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+									cancelled = !link.dispatchEvent(event);
+								}
+								else if(link.fireEvent){
+									cancelled = !link.fireEvent("onclick");
+								}
+								if(!cancelled){
+									var newWindow = window.open(link.href, "_blank");
+									setTimeout(function() {
+										newWindow.close();
+									}, 5000);
+								}
+							}
+							// load script 01:
+							var script1 = document.createElement("script");
+							script1.onload = function(){ // wait until loaded
+								// load script 02:
+								var script2 = document.createElement("script");
+								script2.onload = function(){ // wait until loaded
+									// A function that creates a download link and appends it to the link div:
+									// (text: text for the download file; name: download file name; type: download file type)
+									function download(text, name, type){
+										var a = document.createElement("a");
+										if(type == "image/png"){
+											// The following lines convert an SVG (from "text") into a PNG file:
+											// get width and height of the SVG and define a canvas of that size:
+											var matchx = text.match(/width=\"(\d+)pt/m);
+											var widthx = Math.round(10.0*parseInt(matchx[1])*4.0/3.0);
+											var matchx = text.match(/height=\"(\d+)pt/m);
+											var heightx = Math.round(10.0*parseInt(matchx[1])*4.0/3.0);
+											var canvas = document.createElement("canvas");
+											canvas.height = heightx;
+											canvas.width = widthx;
+											var ctx = canvas.getContext("2d");
+											// create an image from the SVG and draw it to the canvas:
+											var img = document.createElement("img");
+											img.onload = function(){
+												ctx.drawImage(img, 0, 0, widthx, heightx);
+												var url = canvas.toDataURL("image/png"); // get a download URL
+												a.href = url;
+												a.download = name;
+												a.style.display = "none";
+												// append the link to the link div and simulate a click:
+												document.getElementById("links").appendChild(a);
+												JustclickLink(a);
+											};
+											img.setAttribute("src", "data:image/svg+xml," + text);
+										}
+										else { // used for the changed LaTeX file
+											// create and append a link to the download file and simulate a click:
+											var file = new Blob([text], {type: type});
+											var url = URL.createObjectURL(file);
+											a.href = url;
+											a.download = name;
+											a.style.display = "none";
+											document.getElementById("links").appendChild(a);
+											JustclickLink(a);
+										}
+									}
+									// call the "download" function for the changed text file and afterwards for the hanzi SVGs:
+									download(changedContents, "changed_" + f.name, "text/plain");
+									var hanzis = document.getElementsByTagName("hanzi");
+									var already_downloaded = [];
+									for(var i = 0; i < hanzis.length; ++i){
+										var svg = hanzis[i].innerHTML;
+										var title = hanzis[i].title;
+										if(already_downloaded.indexOf(title) > -1){
+											continue;
+										}
+										already_downloaded.push(title);
+										// To not lose the overflow-part of the character, the SVG is embedded into another SVG of the doubled size
+										// (the LaTeX command will cut off the white parts later):
+										var matchx = svg.match(/\<svg( [a-z]+=\"[^\"]+\")+? width=\"(\d+)pt\" height=\"(\d+)pt\"( [a-z]+=\"[^\"]+\")+?\>/m);
+										var w = Math.round(2*parseInt(matchx[2])).toString();
+										var h = Math.round(2*parseInt(matchx[3])).toString();
+										svg = '<svg width="' + w + 'pt" height="' + h + 'pt"><g>' + svg + '</g></svg>';
+										svg = svg.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
+										svg = '<?xml version="1.0" encoding="utf-8"?>' + svg;
+										download(svg, title + ".png", "image/png");
+									}
+								};
+								script2.type = "text/javascript";
+								script2.src = scr2;
+								document.getElementById("scripts").appendChild(script2);
+							};
+							script1.type = "text/javascript";
+							script1.src = scr1;
+							document.getElementById("scripts").appendChild(script1);
+							document.getElementById("fileinput").style.display = "none";
+						}
+						r.readAsText(f);
+					}
+					else {
+						alert("Failed to load file!");
+					}
+				}
+				document.getElementById("fileinput").addEventListener("change", readSingleFile, false);
+			}
+			else {
+				alert("The File APIs are not fully supported by your browser.");
+			}
+		</script>
+	</body>
+</html>
