@@ -342,6 +342,8 @@ To use characters created by hanzi.js within LaTeX you first have to write a usu
 ```latex
 \documentclass[a4paper,12pt]{article}
 \usepackage{CJK}
+\usepackage{adjustbox}
+\usepackage{etoolbox}
 \usepackage{graphicx}
 \newcommand{\hanzi}[1]{\fbox{?}}
 \begin{document}
@@ -353,7 +355,7 @@ To use characters created by hanzi.js within LaTeX you first have to write a usu
 \end{document}
 ```
 
-The [`CJK`](https://en.wikibooks.org/wiki/LaTeX/Internationalization#Chinese) package makes it possible to include Chinese characters. The [`graphicx`](https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics#Importing_external_graphics) package makes it possible to include graphics and is required later.
+The [`CJK`](https://en.wikibooks.org/wiki/LaTeX/Internationalization#Chinese) package makes it possible to include Chinese characters. The [`graphicx`](https://en.wikibooks.org/wiki/LaTeX/Importing_Graphics#Importing_external_graphics) package makes it possible to include graphics and is required later together with the `adjustbox` and `etoolbox` packages.
 
 Include the line `\newcommand{\hanzi}[1]{\fbox{?}}` into the preamble to define the `\hanzi{}` command. This will for now only produce a box with a question mark.
 
@@ -372,14 +374,16 @@ To convert your .tex file follow the subsequent instructions:
 5. The script will save the converted .tex file and a .png file for every created character on your computer, probably in your downloads folder. For every downloaded file a new tab will open. These tabs should close after 5 seconds automatically.
 6. For the first time, I recommend to execute the converter twice (because of the permission issue explained in point 4). Clear your download folder before executing it again. To be able to run the converter again you have to reload the page. Now, everything should work without permission issues.
 7. You can now move the downloaded files to wherever you want and compile the new LaTeX document. The converted .tex file needs the .png files to be located in the same folder.
-8. If you want to put them in a subfolder, e.g. "hanzis", you can do so and change the graphics path in the new document by inserting `\graphicspath{{hanzis/}}` somewhere after `\usepackage{graphicx}` in the preamble. Be aware of that this change will also affect other graphics which you originally included.
+8. If you want to put them in a subfolder, e.g. "hanzis", you can do so and change the graphics path in the new document by inserting `\graphicspath{{hanzis/}}` somewhere after `\usepackage{graphicx}` in the preamble.
 
 The output for the LaTeX example from above looks like this:
 ```latex
 \documentclass[a4paper,12pt]{article}
 \usepackage{CJK}
+\usepackage{adjustbox}
+\usepackage{etoolbox}
 \usepackage{graphicx}
-\newcommand{\hanzi}[2]{\includegraphics[height=#1]{#2.png}}
+\newcommand{\hanzi}[2]{\ifdeflength{\hanziheight}{}{\newlength{\hanziheight}}\setlength{\hanziheight}{#1}\raisebox{-0.05\hanziheight}{\adjincludegraphics[height=\hanziheight,trim={0 {0.5\height} {0.5\width} 0},clip]{#2.png}}}
 \begin{document}
 \begin{CJK}{UTF8}{gbsn}
 你好世界！
@@ -389,12 +393,15 @@ The output for the LaTeX example from above looks like this:
 \end{document}
 ```
 
+Note that the `\hanzi{}` command got a new definition.
+
 ### Comments on coding
 
 - The font size specified as optional parameter in the `\documentclass{}` command will be the default font size for the SVG creator. If no font size is specified, it will be assumed to be `10pt`; exept for the document class `slides` where it will be assumed to be `20pt`.
 - The LaTeX boldface command `\textbf{}` corresponds to `<b></b>`.
 - Since italics are not supported for Chinese characters in LaTeX, i.e. `\textit{}` will not produce cursive characters, the created SVGs won't be in italics style either when they are placed within `\textit{\hanzi{}}`.
 - Underlines and line-throughs can be produced in plain LaTeX and without hanzi.js. For example, one can use the `ulem` package which defines the commands `\uline{}` and `\sout{}` for an underline or a line-through, respectively.
+- `\textsubscript{}` and `\textsuperscript{}` correspond to `<sub></sub>` and `<sup></sup>`, respectively.
 - The CJK package allows several font options. The fonts `gbsn` and `gkai` for simplified Chinese as well as `bsmi` and `bkai` for traditional Chinese will be equivalented to `SimSun` and `KaiTi` as well as `PMingLiU` and `DFKai-SB`, respectively. For other fonts, SimSun is set as default. These settings can be manually changed in the Hanzi-to-TeX Converter file after `<script type="text/javascript">`.
 - The CJK package does not support a mixing of simplified and traditional characters. For example, if one types `我寫漢字。` and the selected font is `gbsn` or `gkai`, only `我字。` will be displayed. However, if one types `我\hanzi{寫}\hanzi{漢}字。`, the complete sequence will be displayed after running the converter.
 - The converter analyses the document's structure on basis of opening and closing `{`s and `}`s as well as environments. Escaped elements like `\}` and `\\\}` (but not `\\}`) or `\\begin{small}` and so on are ignored successfully. However, backslashes are not the only way to escape elements: Code snippets like `\begin{small}\begin{verbatim}\end{small}\end{verbatim}\end{small}` will probably produce a flawed outcome and should be avoided.
