@@ -1,9 +1,9 @@
 /********************************************************************************
 
  script:      Hanzi 02
- version:     1.0
+ version:     1.1
  author:      Tillmann Doenicke
- date:        2018-04-15
+ date:        2018-05-09
 
  This script has to be loaded after Hanzi 01.
 
