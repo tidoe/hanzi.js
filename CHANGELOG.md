@@ -5,27 +5,27 @@
 <table>
 	<tr>
 		<th>Script</th>
-		<th colspan=4>Earlier Versions</th>
+		<th colspan=5>Earlier Versions</th>
 		<th>Newest Version</th>
 	</tr>
 	<tr>
 		<td>Hanzi 01</td>
-		<td colspan=5>1.0</td>
+		<td colspan=6>1.0</td>
 	</tr>
 	<tr>
 		<td>Hanzi 02</td>
 		<td>1.0</td>
 		<td>1.0.1</td>
 		<td colspan=2>1.1</td>
-  		<td>1.3</td>
+  		<td colspan=2>1.3</td>
 	</tr>
 	<tr>
 		<td>Extension 01</td>
-		<td colspan=5>1.0</td>
+		<td colspan=6>1.0</td>
 	</tr>
 	<tr>
 		<td>Test</td>
-		<td colspan=5>1.0</td>
+		<td colspan=6>1.0</td>
 	</tr>
 	<tr>
 		<td>Hanzi-To-TeX</td>
@@ -33,8 +33,15 @@
 		<td>1.1</td>
   		<td>1.2</td>
   		<td>1.3</td>
+  		<td>1.3.1</td>
 	</tr>
 </table>
+
+## 1.3.1
+
+**Hanzi-To-TeX**
+
+- Fixed some bugs concerning the detection and scope of font-size commands.
 
 ## 1.3
 
