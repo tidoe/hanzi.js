@@ -53,23 +53,22 @@ Here's a minimal example of an HTML document which uses hanzi.js:
 	<body>
 		<p>你好世界！</p>
 		<p><hanzi>⿰亻尔</hanzi><hanzi>⿰女子</hanzi>世<hanzi>⿱田介</hanzi>！</p>
-		<script type="text/javascript" src="hanzi-01-v1.0.js"></script>
-		<script type="text/javascript" src="hanzi-02-v1.0.js"></script>
+		<script type="text/javascript" src="hanzi.js"></script>
 	</body>
 </html>
 ```
 
-**Note:** You have to download the .js files and place them in the same folder as your HTML document or modify the path in the `src` attributes of the `<script>` tags.
+**Note:** You have to download the directory `scripts` and the file `hanzi.js`, and place them in the same folder as your HTML document or modify the path in the `src` attribute of the `<script>` tag.
 
-The `<script>` tags must be included right before `</body>`.
+The `<script>` tag must be included right before `</body>`.
+
+In `hanzi.js` you can specify which versions you want to load in your HTML document.
 
 ### Version handling
 
-hanzi.js consists of several scripts and other files. A new version does not necessarily come along with a new version of every file. The newest versions of every file are directly in the master branch whereas earlier versions can be found in the respective subbranch.
+hanzi.js consists of several scripts and other files. A new version does not necessarily come along with a new version of every file. All versions (including the newest ones) of every .js file can be found in the directory `scripts`. The older versions of the HTML files can be found in the directory `earlier_versions`.
 
-The version number is contained in every file name. For example, "hanzi-01-v1.0.1.js" is of version 1.0.1. The examples given here name version 1.0, but work totally fine with newer versions if not stated otherwise. See the changelog to get an overview of all versions.
-
-The head comment in each file states which scripts and rougly where they are loaded, so the user can manually change the version for every loaded script.
+The version number is contained in every file name. For example, `hanzi-01-v1.0.1.js` is of version 1.0.1. The examples given here name version 1.0, but work totally fine with newer versions if not stated otherwise. See the changelog to get an overview of all versions.
 
 ### Character description language
 
@@ -208,7 +207,7 @@ The font-specific parameters are organised in script 01 (`hanzi-01-v1.0.js`). Pa
   * Yu Gothic (sans-serif)
   * MS Gothic (fixed-width)
 
-As indicated above, the six fonts shall cover each font type of {Simplified Chinese, Traditional Chinese, Japanese} × {serif, sans-serif, fixed-width}. However, the fonts are not language dependent; of course one can use, e.g., Arial for Simplified Chinese as well.
+As indicated above, the six fonts shall cover each font type of {Simplified Chinese, Traditional Chinese, Japanese} × {serif, sans-serif, fixed-width}. However, the fonts are not language dependent; of course one can use, e.g., Arial for Simplified Chinese as well. Furthermore, different browsers might cause issues with handling CJK fonts.
 
 For all other fonts, which do not have defined parameter sets, a default parameter set is used. Each default parameter is calculated as the average of its corresponding font-specific parameters.
 
@@ -243,7 +242,7 @@ Special surroundings are characters which can be used as surrounding characters 
 
 ### Define and test new parameters
 
-The content of the variable `fontSpecificParameters` in script 01 (`hanzi-01-v1.0.js`) can be expanded by the parameters of a new font. This takes some time. Make sure to execute the following steps:
+The content of the variable `fontSpecificParameters` in `hanzi-01-v1.0.js` can be expanded by the parameters of a new font. This takes some time. Make sure to execute the following steps:
 
 1. Add the correct font name to the list of fonts. Don't forget to add a comma after the last font in the list and don't write a comma after the new font.
 2. Add a new column to the parameter matrix by inserting `, 0.00` after each number value in the matrix's last column. The numbers indicate the percentage to cut off from the opposite side, e.g. leftx=0.00 means that nothing will be cut off and leftx=0.30 means that 30% from the right side of the character will be cut off. Therefore, right now nothing will be cut off from any character when using the new font.
@@ -296,7 +295,7 @@ For example, in the composition ⿰口馬 both components have sx=0.5 and sy=1.0
 
 ### text-decoration
 
-**Note:** You have to load extension 01 to use text-decoration. Therefore include `<script type="text/javascript" src="hanzi-ext01-v1.0.js"></script>` after the other scripts and before `</body>`.
+**Note:** You have to load the extension `hanzi-ext01-v1.0.js` to use text-decoration. Therefore include it in the `hanzi_scripts` list in `hanzi.js`.
 
 The created character is partially adaptable to the text-decoration types "underline" and "line-through". (The former is especially important for created characters within the text of an (underlined) hyperlink.) At present, the representation of "underline" and "line-through" show several imperfections such as a possibly incorrect line thickness, height or style.
 
