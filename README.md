@@ -2,7 +2,10 @@
 
 Representation of (non-)Unicode Chinese characters in HTML and LaTeX using SVGs
 
-<p align="center"><img src="https://github.com/tidoe/hanzi.js/blob/master/coloured_components.png" width="400"/></p>
+<p align="center">
+	<img src="https://github.com/tidoe/hanzi.js/blob/master/coloured_components.png" width="400"/><br />
+	View the code for this example <a href="https://github.com/tidoe/hanzi.js/blob/master/examples/coloured_components.html">here</a>!
+</p>
 
 ## Table of contents
 
