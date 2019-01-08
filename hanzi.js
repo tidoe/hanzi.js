@@ -10,9 +10,9 @@
 var path = "scripts/"
 
 var hanzi_scripts = [
-	"hanzi-01-v1.0.js",   // Hanzi 01
-	"hanzi-02-v1.3.js",   // Hanzi 02
-	"hanzi-ext01-v1.0.js" // Hanzi Extension 01
+	"hanzi-01-v1.0.js",
+	"hanzi-02-v1.3.js",
+	"hanzi-ext01-v1.0.js"
 ]
 
 function load_scripts(i = 0){
