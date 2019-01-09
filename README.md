@@ -1,6 +1,6 @@
 # hanzi.js
 
-Representation of (non-)Unicode Chinese characters in HTML and LaTeX using SVGs
+Representation of (non-)Unicode Chinese characters in HTML and LaTeX
 
 <p align="center">
 	<img src="https://github.com/tidoe/hanzi.js/blob/master/coloured_components.png" width="400"/><br />
