@@ -10,7 +10,7 @@
 var path = "scripts/"
 
 var hanzi_scripts = [
-	"hanzi-01-v1.3.1.js",
+	"hanzi-01-v2.0.1.js",
 	"hanzi-02-v1.3.js",
 	"hanzi-ext01-v1.0.js"
 ]
