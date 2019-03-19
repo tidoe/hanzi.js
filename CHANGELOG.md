@@ -5,32 +5,33 @@
 <table>
 	<tr>
 		<th colspan=2>File</th>
-		<th colspan=6>Earlier Versions</th>
+		<th colspan=7>Earlier Versions</th>
 		<th>Newest Version</th>
 	</tr>
 	<tr>
 		<td>01</td>
 		<td>js</td>
 		<td colspan=7>1.0</td>
-	</tr>
+		<td align=right>2.0.1</td>
+  </tr>
 	<tr>
 		<td>02</td>
 		<td>js</td>
 		<td>1.0</td>
 		<td>1.0.1</td>
 		<td colspan=2>1.1</td>
-  		<td colspan=3>1.3</td>
+  		<td colspan=4>1.3</td>
 	</tr>
 	<tr>
 		<td>ext01</td>
 		<td>js</td>
-		<td colspan=7>1.0</td>
+		<td colspan=8>1.0</td>
 	</tr>
 	<tr>
 		<td>test</td>
 		<td>html</td>
 		<td colspan=6>1.0</td>
-		<td>2.0</td>
+		<td colspan=2>2.0</td>
 	</tr>
 	<tr>
 		<td>2tex</td>
@@ -40,9 +41,15 @@
   		<td>1.2</td>
   		<td>1.3</td>
   		<td>1.3.1</td>
-		<td>2.0</td>
+		<td colspan=2>2.0</td>
 	</tr>
 </table>
+
+## 2.0.1
+
+**01**
+
+- Added ⺶ to special surroundings.
 
 ## 2.0
 
