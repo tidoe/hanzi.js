@@ -243,7 +243,7 @@ Special characters are characters which are no shortened character variants but 
 
 ### Special surroundings
 
-Special surroundings are characters which can be used as surrounding characters but need other parameters than generally defined. The characters are grouped in equivalence classes and each class has an own entry with the font-specific parameters and a list of members of this class. For example: 尸, 戶, 户, 戸, 气, 𢎘 are all members of the same equivalence class.
+Special surroundings are characters which can be used as surrounding characters but need other parameters than generally defined. The characters are grouped in equivalence classes and each class has an own entry with the font-specific parameters and a list of members of this class. For example: 尸, 戶, 户, 戸, 气, 𢎘, ⺶ are all members of the same equivalence class.
 
 ### Define and test new parameters
 
