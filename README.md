@@ -224,7 +224,7 @@ The following shortened character variants have their own font-specific paramete
 
 * Left: 亻, 冫, 龺, 彳, 忄, 扌, 氵, 牜, 犭, ⺩, ⺪, 礻, 纟, 糹, ⺼, 衤, 讠, 訁, 𧾷, ⻊, 钅, 釒, 阝, 饣, 飠, ⻞, 𩙿
 * Right: 刂, 卜, 卩, ⺙, ⻏
-* Top: 丆, 丷, 𠂉, 乛, 亠, 冖, ⺈, 龶, 宀, ⺍, ⺌, 龸, 𤇾, 爫, ⺧, 𥫗, 罒, 耂, 𦥯, 艹, 䒑, 龷, 𫇦, 覀, ⻗
+* Top: 丆, 丷, 𠂉, 乛, 亠, 冖, ⺈, 龶, 宀, ⺍, ⺌, 龸, 龵, 𤇾, 爫, ⺧, 𥫗, 罒, 耂, 𦥯, 艹, 䒑, 龷, 𫇦, 覀, ⻗
 * Bottom: ⺗, 龰, 灬
 
 The parameters specify which part of the character variant should be cut off (since it is only white space).
