@@ -3,14 +3,14 @@
  script:      Hanzi
  version:     (no version)
  author:      Tillmann Doenicke
- date:        2019-03-19
+ date:        2019-03-28
 
 ********************************************************************************/
 
 var path = "scripts/"
 
 var hanzi_scripts = [
-	"hanzi-01-v2.0.1.js",
+	"hanzi-01-v2.0.2.js",
 	"hanzi-02-v1.3.js",
 	"hanzi-ext01-v1.0.js"
 ]
