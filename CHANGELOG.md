@@ -5,33 +5,34 @@
 <table>
 	<tr>
 		<th colspan=2>File</th>
-		<th colspan=7>Earlier Versions</th>
+		<th colspan=8>Earlier Versions</th>
 		<th>Newest Version</th>
 	</tr>
 	<tr>
 		<td>01</td>
 		<td>js</td>
 		<td colspan=7>1.0</td>
-		<td align=right>2.0.1</td>
-  </tr>
+		<td>2.0.1</td>
+		<td>2.0.2</td>
+	</tr>
 	<tr>
 		<td>02</td>
 		<td>js</td>
 		<td>1.0</td>
 		<td>1.0.1</td>
 		<td colspan=2>1.1</td>
-  		<td colspan=4>1.3</td>
+  		<td colspan=5>1.3</td>
 	</tr>
 	<tr>
 		<td>ext01</td>
 		<td>js</td>
-		<td colspan=8>1.0</td>
+		<td colspan=9>1.0</td>
 	</tr>
 	<tr>
 		<td>test</td>
 		<td>html</td>
 		<td colspan=6>1.0</td>
-		<td colspan=2>2.0</td>
+		<td colspan=3>2.0</td>
 	</tr>
 	<tr>
 		<td>2tex</td>
@@ -41,9 +42,30 @@
   		<td>1.2</td>
   		<td>1.3</td>
   		<td>1.3.1</td>
-		<td colspan=2>2.0</td>
+		<td colspan=3>2.0</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
 	</tr>
 </table>
+
+## 2.0.2
+
+**01**
+
+- Added 龵 to top variants.
+
+## 2.0
 
 ## 2.0.1
 
