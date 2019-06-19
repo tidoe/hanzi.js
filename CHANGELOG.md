@@ -65,8 +65,6 @@
 
 - Added 龵 to top variants.
 
-## 2.0
-
 ## 2.0.1
 
 **01**
